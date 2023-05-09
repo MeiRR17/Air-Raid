@@ -3,6 +3,7 @@ import java.awt.*;
 
 public class Window extends JFrame {
 
+
     public Window(){
         this.setResizable(false);
         this.setSize(300,300);

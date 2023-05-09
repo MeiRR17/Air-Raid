@@ -9,7 +9,6 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setBackground(Color.BLUE);
-
     }
     public void showWindow(){
         this.setVisible(true);

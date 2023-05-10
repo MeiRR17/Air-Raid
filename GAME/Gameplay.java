@@ -5,5 +5,4 @@ import javax.swing.*;
 
 class Gameplay extends JPanel {
 
-
 }

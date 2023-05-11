@@ -10,6 +10,17 @@ public class Window extends JFrame {
 
     public Window(){
 
+        this.setTitle("Air Raid");
+        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);/*Set the size of the JFrame*/
+        this.setLocationRelativeTo(null);/*Make the Window pop-up in the middle of the screen (width, height)*/
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);/*Make the program end when closing the window with code 0*/
+        this.setLayout(null);/*Make the ability to control how the components added to the container are arranged and sized*/
+        this.setResizable(false);/*Disable window's resize*/
+
+
+
+
+
         JPanel titleNamePanel = new JPanel();
         titleNamePanel.setBounds(WINDOW_WIDTH/8, WINDOW_HEIGHT/8, WINDOW_WIDTH/4*3, WINDOW_HEIGHT/4);
         titleNamePanel.setBackground(Color.BLUE.brighter());
@@ -32,28 +43,27 @@ public class Window extends JFrame {
 
         setIconImage(icon.getImage());
 //        GridLayout gridLayout = new GridLayout(1,1);
-        this.setTitle("Air Raid");
-        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);/*Set the size of the JFrame*/
-        this.setLocationRelativeTo(null);/*Make the Window pop-up in the middle of the screen (width, height)*/
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);/*Make the program end when closing the window with code 0*/
-        this.setLayout(null);/*Make the ability to control how the components added to the container are arranged and sized*/
-        this.setResizable(false);/*Disable window's resize*/
-        Gameplay gameplay = new Gameplay(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        /*Create new Gameplay Object and make it the same size as the window*/
 
 
 
-        JButton button = new JButton("button");
-        this.add(button);
-        button.setBounds(400,300,100,100);
-        button.addActionListener((e -> {
-            button.setBounds(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
-            button.setVisible(false);
-            this.add(gameplay);/*Add the gameplay object*/
-        }));
+
+//        Gameplay gameplay = new Gameplay(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+//        /*Create new Gameplay Object and make it the same size as the window*/
+//
+//
+//
+//        JButton button = new JButton("button");
+//        this.add(button);
+//        button.setBounds(400,300,100,100);
+//        button.addActionListener((e -> {
+//            button.setBounds(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+//            button.setVisible(false);
+//            this.add(gameplay);/*Add the gameplay object*/
+//        }));
         //we need to add a new button on the scene (Label), that is why I think we need a new class here...The
     }
     public void showWindow(){//This method will make the JFrame visible
         this.setVisible(true);/*JFrame's build-in method to set it to be visible*/
     }
+
 }

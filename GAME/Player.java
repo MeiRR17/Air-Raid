@@ -1,20 +1,19 @@
 import java.awt.*;
 
-public class Player {
-        /*In this class we're going to make player1's plane*/
-        private static final int PLANE_HEIGHT = 500;
-        private static final int PLANE_WIDTH = 500;
-    /*ADDED PLANE'S HEIGHT AND WIDTH*/
-        private int positionX; //To get his place
-        private int positionY;
+public class Player extends Thread {
+        /*In this class we're going to make player's plane*/
+        private int START_X;
+        private int START_Y;
 
-        public Player (int x, int y) {
-            this.positionX =x;
-            this.positionY=y;
-        }
+    public Player (int START_X, int START_Y) {
+        /*ADDED PLANE'S HEIGHT AND WIDTH*/
+        this.START_X = START_X;
+        this.START_Y = START_Y;
+        //To get his place
+    }
         public static void paint(Graphics graphics){
-            graphics.fillRect(30,30,60,60);
             graphics.setColor(Color.RED);
+            graphics.fillRect(30,30,60,60);
 
         }
 }

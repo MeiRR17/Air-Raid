@@ -8,13 +8,16 @@ import java.awt.event.KeyListener;
 
 class Gameplay extends JPanel implements KeyListener {
     /*In this class we're going to combine the whole game*/
-    private Player player;
+    private final Player player;
+    private final Bomb bomb;
 
 
-    public Gameplay(int positionA, int positionB, int width, int height){
-        this.setBounds(positionA, positionB, width, height);
-        this.setBackground(Color.blue);
-        this.player = new Player(40,80);
+    public Gameplay(int START_X, int START_Y, int GAMEPLAY_WIDTH, int GAMEPLAY_HEIGHT){
+        this.setBounds(START_X, START_Y, GAMEPLAY_WIDTH, GAMEPLAY_HEIGHT);
+        this.setBackground(Color.BLUE.brighter());
+        this.player = new Player(80, 80);
+        this.player.start();
+        this.bomb = null;
     }
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);

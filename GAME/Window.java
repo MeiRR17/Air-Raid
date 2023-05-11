@@ -1,13 +1,13 @@
 import javax.swing.*;
+import java.util.Objects;
 
 public class Window extends JFrame {
     private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 800;
-    ImageIcon icon;
+    private static final int WINDOW_HEIGHT = 600;
+    ImageIcon icon = new ImageIcon("C:\\Users\\mbzdv\\IdeaProject\\A Game\\Resource\\gameIcon.jpgw");
 
 
     public Window(){
-        icon = new ImageIcon("\"C:\\Users\\gameIcon.jpg\"");
         setIconImage(icon.getImage());
         this.setTitle("Air Raid");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);/*Set the size of the JFrame*/
@@ -19,6 +19,8 @@ public class Window extends JFrame {
         /*Create new Gameplay Object and make it the same size as the window*/
         this.add(gameplay);/*Add the gameplay object*/
 
+        JPanel titleNamePanel = new JPanel();
+        titleNamePanel.setBounds(WINDOW_WIDTH/8, WINDOW_HEIGHT/8, WINDOW_WIDTH/4*3, WINDOW_HEIGHT/4);
     }
     public void showWindow(){//This method will make the JFrame visible
         this.setVisible(true);/*JFrame's build-in method to set it to be visible*/

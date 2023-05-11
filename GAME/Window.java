@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.Objects;
 
 public class Window extends JFrame {
@@ -21,6 +22,8 @@ public class Window extends JFrame {
 
         JPanel titleNamePanel = new JPanel();
         titleNamePanel.setBounds(WINDOW_WIDTH/8, WINDOW_HEIGHT/8, WINDOW_WIDTH/4*3, WINDOW_HEIGHT/4);
+        titleNamePanel.setBackground(Color.WHITE);
+        this.add(titleNamePanel);
     }
     public void showWindow(){//This method will make the JFrame visible
         this.setVisible(true);/*JFrame's build-in method to set it to be visible*/

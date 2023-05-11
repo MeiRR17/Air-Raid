@@ -5,12 +5,12 @@ import java.awt.Font;
 public class GameOpening {
     private JPanel panel;
     private JButton startButton;
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 600;
+    private static final int GAME_OPENING_WIDTH = 800;
+    private static final int GAME_OPENING_HEIGHT = 600;
 
-    public GameOpening(JFrame parent) {
+    public GameOpening(JFrame jFrame, int GAME_OPENING_WIDTH, int GAME_OPENING_HEIGHT) {
         panel = new JPanel();
-        panel.setBounds(WINDOW_WIDTH / 8, WINDOW_HEIGHT / 6, WINDOW_WIDTH / 4 * 3, WINDOW_HEIGHT / 4);
+        panel.setBounds(GAME_OPENING_WIDTH / 8, GAME_OPENING_HEIGHT / 6, GAME_OPENING_WIDTH / 4 * 3, GAME_OPENING_HEIGHT / 4);
         panel.setBackground(Color.BLUE.brighter());
 
         JLabel titleNameLabel = new JLabel("AIR-RAID");
@@ -19,7 +19,7 @@ public class GameOpening {
         panel.add(titleNameLabel);
 
         JPanel startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(WINDOW_WIDTH / 8 * 3, WINDOW_HEIGHT / 6 * 4, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 8);
+        startButtonPanel.setBounds(GAME_OPENING_WIDTH / 8 * 3, GAME_OPENING_HEIGHT / 6 * 4, GAME_OPENING_WIDTH / 4, GAME_OPENING_HEIGHT / 8);
         startButtonPanel.setBackground(Color.BLUE.brighter());
 
         startButton = new JButton("START");
@@ -30,7 +30,7 @@ public class GameOpening {
 
         panel.add(startButtonPanel);
 
-        parent.add(panel);
+        jFrame.add(panel);
     }
     public JPanel getPanel() {
         return panel;

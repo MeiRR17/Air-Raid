@@ -19,7 +19,7 @@ public class Window extends JFrame {
 
         this.getContentPane().setBackground(Color.BLUE.brighter());
 
-        GameOpening openingGame = new GameOpening(this);
+        GameOpening openingGame = new GameOpening(this, WINDOW_WIDTH, WINDOW_HEIGHT);
         add(openingGame.getPanel());
 
 

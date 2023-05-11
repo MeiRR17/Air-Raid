@@ -25,6 +25,19 @@ public class Player extends Thread {
     public void paint(Graphics graphics){
         graphics.setColor(color);
         graphics.fillRect(this.START_X, START_Y, WIDTH, HEIGHT);
-
+    }
+    public int getX(){
+        return this.START_X;
+    }
+    public void fly(){
+        Thread fling =new Thread();
+        while (true){
+            START_X++;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class Bomb {
-    private final int START_X;
+    private int START_X;
     private int START_Y;
     private final int speed;
     private final int WIDTH = 15;
@@ -16,6 +16,7 @@ public class Bomb {
 
     public void move(){
         START_Y += speed;
+        START_X -=speed;
     }
 
     public void draw(Graphics g) {

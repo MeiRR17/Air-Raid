@@ -31,6 +31,7 @@ public class Window extends JFrame {
         this.add(startButtonPanel);
 
         setIconImage(icon.getImage());
+//        GridLayout gridLayout = new GridLayout(1,1);
         this.setTitle("Air Raid");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);/*Set the size of the JFrame*/
         this.setLocationRelativeTo(null);/*Make the Window pop-up in the middle of the screen (width, height)*/
@@ -39,7 +40,6 @@ public class Window extends JFrame {
         this.setResizable(false);/*Disable window's resize*/
         Gameplay gameplay = new Gameplay(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         /*Create new Gameplay Object and make it the same size as the window*/
-        this.add(gameplay);/*Add the gameplay object*/
 
 
 

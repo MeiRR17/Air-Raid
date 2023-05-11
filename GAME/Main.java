@@ -5,5 +5,6 @@ public class Main {
         /*Main Class*/
         Window window = new Window();/*Create the window object*/
         window.showWindow();/*Make the window object to show up*/
+
     }
 }

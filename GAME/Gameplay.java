@@ -2,6 +2,7 @@
 //import java.awt.event.KeyListener;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -10,7 +11,8 @@ class Gameplay extends JPanel implements KeyListener {
 
     public Gameplay(int positionA, int positionB, int width, int height){
         this.setBounds(positionA, positionB, width, height);
-        //this.setBackground();
+
+        this.setBackground(Color.blue);
     }
 
     @Override

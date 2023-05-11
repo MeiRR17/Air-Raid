@@ -30,7 +30,7 @@ public class Player extends Thread {
         return this.START_X;
     }
     public void fly(){
-        Thread fling =new Thread();
+         Thread fling =new Thread();
         while (true){
             START_X++;
             try {

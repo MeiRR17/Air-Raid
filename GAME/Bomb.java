@@ -16,7 +16,7 @@ public class Bomb {
 
     public void move(){
         START_Y += speed;
-        START_X -=speed;
+        START_X -= speed;
     }
 
     public void draw(Graphics g) {

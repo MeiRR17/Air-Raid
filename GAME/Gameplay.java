@@ -8,18 +8,25 @@ class Gameplay extends JPanel implements KeyListener {
     private final Player player;
     private final Bomb bomb;
 
-
     public Gameplay(int START_X, int START_Y, int GAMEPLAY_WIDTH, int GAMEPLAY_HEIGHT){
         this.setBounds(START_X, START_Y, GAMEPLAY_WIDTH, GAMEPLAY_HEIGHT);
         this.setBackground(Color.BLUE.brighter());
         this.player = new Player(80, 80);
         this.player.start();
         this.bomb = null;
+        boolean isRunning = true;
+        addKeyListener(this);
+        setFocusable(true);
     }
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         this.player.paint(graphics);
+        if(bomb != null){
+            bomb.draw(graphics);
+        }
     }
+
+
 
 
     @Override

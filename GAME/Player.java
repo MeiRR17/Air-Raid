@@ -17,6 +17,11 @@ public class Player extends Thread {
         this.START_Y = START_Y;
         //To get his place
     }
+
+    public void moveRight(){
+        START_X += speed;
+    }
+
     public void paint(Graphics graphics){
         graphics.setColor(color);
         graphics.fillRect(this.START_X, START_Y, WIDTH, HEIGHT);

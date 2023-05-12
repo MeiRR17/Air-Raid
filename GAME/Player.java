@@ -30,14 +30,15 @@ public class Player extends Thread {
         return this.START_X;
     }
     public void fly(){
-         Thread fling =new Thread();
-        while (true){
-            START_X++;
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        new Thread(() -> {
+            while (true){
+                START_X++;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
+        }).start();
     }
 }

@@ -1,0 +1,13 @@
+Game Mechanics:
+
+The game has 2 players who control planes that automatically fly.
+The players can only launch bombs to destroy objects on the canyon.
+The objects are placed in specific locations: 4 points, 3 points, 2 points and 1 point, can be placed according to their rarity.
+Each player can only launch one bomb at a time.
+Once an object is destroyed, it does not reappear.
+If a player hits the canyon 4 times, they lose the game.
+
+Winning and Losing:
+
+The player who destroys the most objects without hitting the canyon wins the game.
+If both players have the same number of destroyed objects, the game is a tie.

@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Player extends Thread {
@@ -34,15 +35,13 @@ public class Player extends Thread {
         return this.START_X;
     }
     public void fly(){
-        new Thread(() -> {
-            while (true){
-                START_X++;
+        while (true){
+            this.START_X++;
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(speed);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
-        }).start();
     }
 }

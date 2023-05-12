@@ -4,9 +4,9 @@ public class Bomb {
     private int START_X;
     private int START_Y;
     private final int speed;
-    private final int WIDTH = 15;
-    private final int HEIGHT = 15;
-    private final Color color = Color.BLACK;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private final Color color;
 
     public Bomb(int START_X, int START_Y, int speed, int width, int height, Color color){
         this.START_X = START_X;

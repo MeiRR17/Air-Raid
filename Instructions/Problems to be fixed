@@ -12,7 +12,8 @@ The Player class has a moveRight method, but there are no corresponding methods 
 down, or left. The fly method seems to be an attempt to make the player move automatically, but it doesn't work as intended.
 
 The Player class has a paint method that paints the player using the Graphics.fillRect method,
-but there is no corresponding method to erase the player's previous position. Therefore, the player leaves a trail on the screen when it moves.
+but there is no corresponding method to erase the player's previous position. Therefore, the player leaves a trail on
+the screen when it moves.
 
 The Player class has a getWidth method that returns the player's width, but there is no corresponding method to get the player's height.
 

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 class Gameplay extends JPanel implements KeyListener {
     /*In this class we're going to combine the whole game*/
@@ -17,6 +18,11 @@ class Gameplay extends JPanel implements KeyListener {
         boolean isRunning = true;
         addKeyListener(this);
         setFocusable(true);
+
+
+//        Target target = new Target(100,100,50,50, new BufferedImage());
+
+
     }
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);

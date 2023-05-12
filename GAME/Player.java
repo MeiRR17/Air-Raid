@@ -12,7 +12,7 @@ public class Player extends Thread {
 
     private Color color = Color.WHITE;
 
-    public Player (int speed, int START_X, int START_Y, int width, int height, String imagePath) {
+    public Player (int speed, int START_X, int START_Y, int width, int height, Image image) {
         /*ADDED PLANE'S HEIGHT AND WIDTH*/
         this.START_X = START_X;
         this.START_Y = START_Y;
@@ -20,12 +20,16 @@ public class Player extends Thread {
         this.HEIGHT = height;
         this.image = image;
         this.speed = speed;
-        ImageIcon icon = new ImageIcon(imagePath);
+        this.image = image;
+
 
     }
 
     public void moveRight(){
         START_X += speed;
+    }
+    public void moveLeft(){
+        START_X -= speed;
     }
 
     public void paint(Graphics graphics){

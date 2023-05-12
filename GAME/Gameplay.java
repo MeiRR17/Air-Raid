@@ -3,10 +3,21 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 class Gameplay extends JPanel implements KeyListener {
     /*In this class we're going to combine the whole game*/
+    private static final int TARGET_RADIUS = 30;
+    private static final int PLAYER_WIDTH = 60;
+    private static final int PLAYER_HEIGHT = 70;
+
+    private static final int MAX_BOMBS = 3;
+    private static final int BOMB_SPEED = 5;
+    private static final int TARGET_POINTS = 10;
+    private static final int BOMB_POINTS = -5;
+
     private final Player player;
+    private Target target;
     private final Bomb bomb;
     private boolean[] pressedKeys;
     public static final int ENTER =0;
@@ -18,8 +29,7 @@ class Gameplay extends JPanel implements KeyListener {
         this.pressedKeys = new boolean[2];
 
 
-        Image planeImage = Im
-        this.player = new Player(1000, 180, 180 ,150 ,150 , image);
+        this.player = new Player(WIDTH / 8, HEIGHT - 100, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
         this.player.fly();
         this.player.start();
         this.bomb = null;
@@ -73,4 +83,29 @@ class Gameplay extends JPanel implements KeyListener {
             this.pressedKeys[toRelease] =false;
         }
     }
-}
+
+
+
+
+
+    public void spawnTargets() {
+        Random random = new Random();
+        int chance = random.nextInt(100);
+        if (chance < 5) {
+            int x = random.nextInt(WIDTH - 100);
+            int y = 0;
+            int radius = 50;
+            int number = random.nextInt(10) + 1;
+            BufferedImage image = new BufferedImage(radius * 2, radius * 2, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = image.createGraphics();
+            g.setColor(Color.YELLOW);
+            g.fillOval(0, 0, radius * 2, radius * 2);
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.BOLD, radius));
+            int stringWidth = g.getFontMetrics().stringWidth(Integer.toString(number));
+            g.drawString(Integer.toString(number), radius - stringWidth / 2, radius + radius / 2);
+            g.dispose();
+
+        }
+    }
+    }

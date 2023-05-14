@@ -30,12 +30,24 @@ class Gameplay extends JPanel implements KeyListener {
 
 
         this.player = new Player(WIDTH / 8, HEIGHT - 100, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
-        this.player.fly();
         this.player.start();
         this.bomb = null;
         boolean isRunning = true;
         addKeyListener(this);
         setFocusable(true);
+        new Thread(() -> {
+            while (true) {
+                repaint();
+                if (player.getX() == GAMEPLAY_WIDTH){
+                    player.setX(-30);
+                }
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
 
 
 //        Target target = new Target(100,100,50,50, new BufferedImage());
@@ -45,9 +57,6 @@ class Gameplay extends JPanel implements KeyListener {
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         this.player.paint(graphics);
-        if(bomb != null){
-            bomb.draw(graphics);
-        }
     }
 
 
@@ -108,4 +117,4 @@ class Gameplay extends JPanel implements KeyListener {
 
         }
     }
-    }
+}

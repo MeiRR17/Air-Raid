@@ -30,7 +30,6 @@ public class Window extends JFrame {
             add(gameplay);
             gameplay.requestFocusInWindow();
         });
-
         /*Create new Gameplay Object and make it the same size as the window*/
     }
     public void showWindow(){//This method will make the JFrame visible

@@ -20,9 +20,6 @@ public class Player extends Thread {
         this.HEIGHT = height;
         this.image = image;
         this.speed = speed;
-        this.image = image;
-
-
     }
 
     public void moveRight(){
@@ -38,7 +35,10 @@ public class Player extends Thread {
     public int getX(){
         return this.START_X;
     }
-    public void fly(){
+    public void setX(int START_X){
+        this.START_X = START_X;
+    }
+    public void run(){
         while (true){
             this.START_X++;
                 try {

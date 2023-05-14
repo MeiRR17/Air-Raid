@@ -57,6 +57,9 @@ class Gameplay extends JPanel implements KeyListener {
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         this.player.paint(graphics);
+        if(bomb != null){
+            bomb.draw(graphics);
+        }
     }
 
 

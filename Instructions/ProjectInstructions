@@ -1,0 +1,19 @@
+1. Create a game window and set up the graphics environment.
+
+2. Create a Player class that represents each player's plane.
+The plane should move automatically, and the player should be able to launch bombs by pressing a key.
+
+3. Create an Object class that represents the objects that need to be destroyed. Each object should have a different point value.
+
+4. Place the objects on the screen in specific locations.
+
+5. Create a Bomb class that represents the bombs that players launch.
+The bombs should move automatically and destroy any objects they come into contact with.
+
+6. Implement collision detection between the bombs and the objects, and between the players and the canyon.
+If a player hits the canyon too many times, they lose the game.
+
+7. Keep track of each player's score, and end the game when a certain number of objects
+have been destroyed or when one of the players hits the canyon too many times.
+
+8. Add sound effects and other features to enhance the game's playability.

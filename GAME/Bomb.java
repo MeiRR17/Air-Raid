@@ -40,6 +40,9 @@ public class Bomb extends Thread{
     public void setSLEEP(int sleep){
         SLEEP = sleep;
     }
+    public Rectangle calculateRectangle(){
+        return new Rectangle(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
+    }
 
 
 

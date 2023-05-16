@@ -4,7 +4,9 @@ import java.awt.*;
 public class Player extends Thread {
         /*In this class we're going to make player's plane*/
     private int START_X;
+    private int moveX;
     private int START_Y;
+    private int moveY;
     private final int WIDTH;
     private final int HEIGHT;
     private final int speed;
@@ -15,7 +17,9 @@ public class Player extends Thread {
     public Player (int speed, int START_X, int START_Y, int width, int height, Image image) {
         /*ADDED PLANE'S HEIGHT AND WIDTH*/
         this.START_X = START_X;
+        this.moveX=START_X;
         this.START_Y = START_Y;
+        this.moveY = START_Y;
         this.WIDTH = width;
         this.HEIGHT = height;
         this.image = image;
@@ -33,7 +37,7 @@ public class Player extends Thread {
         graphics.fillRect(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
         graphics.setColor(Color.black);
         graphics.drawImage(image, START_X, START_Y, START_X + WIDTH, START_Y + HEIGHT, 0, 0, image.getWidth(null), image.getHeight(null), null);
-        graphics.setColor(Color.black);
+
     }
     public int getX(){
         return this.START_X;

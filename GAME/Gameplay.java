@@ -33,7 +33,7 @@ class Gameplay extends JPanel implements KeyListener {
 
         this.player = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
         this.player.start();
-        this.bomb = new Bomb(player.getX(),player.getY()+7,50,50);
+        this.bomb = new Bomb(player.getX(),player.getY(),50,50);
         this.bomb.start();
         boolean isRunning = true;
         this.addKeyListener(this);
@@ -42,20 +42,27 @@ class Gameplay extends JPanel implements KeyListener {
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (player.getX() == GAMEPLAY_WIDTH || player.getX() > GAMEPLAY_WIDTH){
+                if (player.getX() == GAMEPLAY_WIDTH || player.getX() > GAMEPLAY_WIDTH){// Makes the player loop
                     player.setX(-30);
                 }
-                if ( bomb.getX() == GAMEPLAY_WIDTH){
+                if (bomb.getY() == GAMEPLAY_WIDTH && bomb.getY() == player.getY()){
                     bomb.setX(-30);
                 }
-                if (this.pressedKeys[ENTER]){
+
+                if (this.pressedKeys[ENTER]){ // When pressed enter it drops the bomb
                     bomb.moveRight();
-                    bomb.setSLEEP(30);
+                    bomb.setSLEEP(40);
+                    if (bomb.getX() == GAMEPLAY_WIDTH){ // Makes the bomb loop with the player
+                        bomb.setX(bomb.getX());
                     }
-                if (bomb.getY() > GAMEPLAY_HEIGHT || bomb.getY() == GAMEPLAY_HEIGHT){
+                }
+                if (bomb.getY() == GAMEPLAY_HEIGHT){ // Makes the bomb return after hitting something
                     bomb.reload(player.getX(),player.getY());
                     bomb.setSLEEP(10);
                     this.pressedKeys[ENTER] =false;
+                    if (bomb.getX() == GAMEPLAY_WIDTH){
+                        bomb.setX(player.getX());
+                    }
                 }
                 try {
                     Thread.sleep(10);
@@ -112,6 +119,7 @@ class Gameplay extends JPanel implements KeyListener {
             this.pressedKeys[toRelease] =false;
         }
     }
+
 
 
 

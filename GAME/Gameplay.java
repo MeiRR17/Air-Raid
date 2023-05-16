@@ -15,6 +15,8 @@ class Gameplay extends JPanel implements KeyListener {
     private static final int BOMB_SPEED = 5;
     private static final int TARGET_POINTS = 10;
     private static final int BOMB_POINTS = -5;
+    private static final int WIDTH =800;
+    private static final int HEIGHT =600;
 
     private final Player player;
     private Target target;
@@ -29,17 +31,31 @@ class Gameplay extends JPanel implements KeyListener {
         this.pressedKeys = new boolean[2];
 
 
-        this.player = new Player(WIDTH / 8, HEIGHT - 100, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
+        this.player = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
         this.player.start();
-        this.bomb = null;
+        this.bomb = new Bomb(player.getX(),player.getY()+7,50,50);
+        this.bomb.start();
         boolean isRunning = true;
-        addKeyListener(this);
-        setFocusable(true);
+        this.addKeyListener(this);
+        this.setFocusable(true);
+        this.requestFocus();
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (player.getX() == GAMEPLAY_WIDTH){
+                if (player.getX() == GAMEPLAY_WIDTH || player.getX() > GAMEPLAY_WIDTH){
                     player.setX(-30);
+                }
+                if ( bomb.getX() == GAMEPLAY_WIDTH){
+                    bomb.setX(-30);
+                }
+                if (this.pressedKeys[ENTER]){
+                    bomb.moveRight();
+                    bomb.setSLEEP(30);
+                    }
+                if (bomb.getY() > GAMEPLAY_HEIGHT || bomb.getY() == GAMEPLAY_HEIGHT){
+                    bomb.reload(player.getX(),player.getY());
+                    bomb.setSLEEP(10);
+                    this.pressedKeys[ENTER] =false;
                 }
                 try {
                     Thread.sleep(10);
@@ -60,6 +76,9 @@ class Gameplay extends JPanel implements KeyListener {
         if(bomb != null){
             bomb.draw(graphics);
         }
+    }
+    private void miniLoop(){
+
     }
 
 
@@ -86,9 +105,7 @@ class Gameplay extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         Integer toRelease =null;
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            toRelease = ENTER;
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             toRelease = SPACE;
         }
         if (toRelease != null){

@@ -19,11 +19,13 @@ class Gameplay extends JPanel implements KeyListener {
     private static final int HEIGHT =600;
 
     private final Player player;
+    private final Player player2;
     private Target target;
     private final Bomb bomb;
+    private final Bomb bomb2;
     private boolean[] pressedKeys;
     public static final int ENTER =0;
-    public static final int SPACE =0;
+    public static final int SPACE =1;
 
     public Gameplay(int START_X, int START_Y, int GAMEPLAY_WIDTH, int GAMEPLAY_HEIGHT){
         this.setBounds(START_X, START_Y, GAMEPLAY_WIDTH, GAMEPLAY_HEIGHT);
@@ -33,8 +35,12 @@ class Gameplay extends JPanel implements KeyListener {
 
         this.player = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
         this.player.start();
-        this.bomb = new Bomb(player.getX(),player.getY(),50,50);
+        this.player2 = new Player(WIDTH /8,600,140,150,150,new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
+        this.player2.start();
+        this.bomb = new Bomb(player.getX(),player.getY(),50,50,10);
         this.bomb.start();
+        this.bomb2 = new Bomb(player2.getX(),player2.getY(),50,50,10);
+        this.bomb2.start();
         boolean isRunning = true;
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -42,26 +48,37 @@ class Gameplay extends JPanel implements KeyListener {
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (player.getX() == GAMEPLAY_WIDTH || player.getX() > GAMEPLAY_WIDTH){// Makes the player loop
-                    player.setX(-30);
+                if (this.player.getX() >= GAMEPLAY_WIDTH && (this.bomb.getX() == GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY())){// Makes the player loop
+                    this.player.setX(-30);
+                    this.bomb.setX(-30);
                 }
-                if (bomb.getY() == GAMEPLAY_WIDTH && bomb.getY() == player.getY()){
-                    bomb.setX(-30);
+                if (this.player2.getX()<-40 && (this.bomb2.getX() < -40 && this.bomb2.getY() == this.player2.getY())){
+                    this.player2.setX(GAMEPLAY_WIDTH+30);
+                    this.bomb2.setX(GAMEPLAY_WIDTH+30);
                 }
 
                 if (this.pressedKeys[ENTER]){ // When pressed enter it drops the bomb
-                    bomb.moveRight();
-                    bomb.setSLEEP(40);
-                    if (bomb.getX() == GAMEPLAY_WIDTH){ // Makes the bomb loop with the player
-                        bomb.setX(bomb.getX());
+                    this.bomb.moveRight();
+                    this.bomb.setSLEEP(40);
+                }
+                if (this.pressedKeys[SPACE]) {
+                    this.bomb2.moveLeft();
+                    this.bomb2.setSLEEP(40);
+                }
+                if (this.bomb.getY() == GAMEPLAY_HEIGHT){ // Makes the bomb return after hitting something
+                    this.bomb.reload(player.getX(),player.getY());
+                    this.bomb.setSLEEP(10);
+                    this.pressedKeys[ENTER] =false;
+                    if (this.bomb.getX() == GAMEPLAY_WIDTH){
+                        this.bomb.setX(this.player.getX());
                     }
                 }
-                if (bomb.getY() == GAMEPLAY_HEIGHT){ // Makes the bomb return after hitting something
-                    bomb.reload(player.getX(),player.getY());
-                    bomb.setSLEEP(10);
-                    this.pressedKeys[ENTER] =false;
-                    if (bomb.getX() == GAMEPLAY_WIDTH){
-                        bomb.setX(player.getX());
+                if (this.bomb2.getY() == GAMEPLAY_HEIGHT){
+                    this.bomb2.reload(this.player2.getX(),this.player2.getY());
+                    this.bomb2.setSLEEP(10);
+                    this.pressedKeys[SPACE] = false;
+                    if (this.bomb2.getX() == -10){
+                        this.bomb2.setX(this.bomb2.getX());
                     }
                 }
                 try {
@@ -80,9 +97,9 @@ class Gameplay extends JPanel implements KeyListener {
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         this.player.paint(graphics);
-        if(bomb != null){
-            bomb.draw(graphics);
-        }
+        this.player2.paint(graphics);
+        this.bomb.draw(graphics);
+        this.bomb2.draw(graphics);
     }
     private void miniLoop(){
 
@@ -111,9 +128,16 @@ class Gameplay extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        Integer toRelease =null;
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            toRelease = SPACE;
+        Integer toRelease = null;
+        if (this.bomb.getY() == HEIGHT){
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                toRelease = ENTER;
+            }
+        }
+         else if (this.bomb2.getY() == HEIGHT) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE){
+                toRelease = SPACE;
+            }
         }
         if (toRelease != null){
             this.pressedKeys[toRelease] =false;

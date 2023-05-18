@@ -6,8 +6,6 @@ public class Player extends Thread {
     private int moveX;
     private int START_Y;
     private int moveY;
-    private final int WIDTH;
-    private final int HEIGHT;
     private final int speed;
     private Image image;
 
@@ -19,8 +17,6 @@ public class Player extends Thread {
         this.moveX=START_X;
         this.START_Y = START_Y;
         this.moveY = START_Y;
-        this.WIDTH = width;
-        this.HEIGHT = height;
         this.image = image;
         this.speed = speed;
     }
@@ -33,9 +29,9 @@ public class Player extends Thread {
     }
 
     public void paint(Graphics graphics){
-        graphics.fillRect(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
+        graphics.fillRect(this.START_X,this.START_Y, 10, 10);
         graphics.setColor(Color.black);
-        graphics.drawImage(image, START_X, START_Y, START_X + WIDTH, START_Y + HEIGHT, 0, 0, image.getWidth(null), image.getHeight(null), null);
+        graphics.drawImage(image, START_X, START_Y, null);
 
     }
     public int getX(){

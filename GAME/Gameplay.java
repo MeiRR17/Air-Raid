@@ -48,8 +48,11 @@ class Gameplay extends JPanel implements KeyListener {
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (this.player.getX() >= GAMEPLAY_WIDTH && (this.bomb.getX() == GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY())){// Makes the player loop
+                if (this.player.getX() >= GAMEPLAY_WIDTH ){// Makes the player loop
                     this.player.setX(-30);
+
+                }
+                if (this.bomb.getX() == GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY()){
                     this.bomb.setX(-30);
                 }
                 if (this.player2.getX()<-40 && (this.bomb2.getX() < -40 && this.bomb2.getY() == this.player2.getY())){

@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 class Gameplay extends JPanel implements KeyListener {
     /*In this class we're going to combine the whole game*/
@@ -19,7 +21,7 @@ class Gameplay extends JPanel implements KeyListener {
     private final Player player;
     private final Player player2;
     private Target target;
-    private Bomb bomb;
+    private final Bomb bomb;
     private final Bomb bomb2;
     private boolean[] pressedKeys;
     public static final int ENTER =0;
@@ -31,9 +33,9 @@ class Gameplay extends JPanel implements KeyListener {
         this.pressedKeys = new boolean[2];
 
 
-        this.player = new Player(18, 180, new ImageIcon("Resource/Player/BLUE_TEAM/Option1.png").getImage());
+        this.player = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
         this.player.start();
-        this.player2 = new Player(WIDTH /8,600, new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
+        this.player2 = new Player(WIDTH /8,600,140,150,150,new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
         this.player2.start();
         this.bomb = new Bomb(player.getX(),player.getY(),50,50,10);
         this.bomb.start();
@@ -46,11 +48,8 @@ class Gameplay extends JPanel implements KeyListener {
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (this.player.getX() >= GAMEPLAY_WIDTH ){// Makes the player loop
+                if (this.player.getX() >= GAMEPLAY_WIDTH && (this.bomb.getX() == GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY())){// Makes the player loop
                     this.player.setX(-30);
-
-                }
-                if (this.bomb.getX() == GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY()){
                     this.bomb.setX(-30);
                 }
                 if (this.player2.getX()<-40 && (this.bomb2.getX() < -40 && this.bomb2.getY() == this.player2.getY())){
@@ -135,7 +134,7 @@ class Gameplay extends JPanel implements KeyListener {
                 toRelease = ENTER;
             }
         }
-         else if (this.bomb2.getY() == HEIGHT) {
+        else if (this.bomb2.getY() == HEIGHT) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE){
                 toRelease = SPACE;
             }
@@ -150,24 +149,24 @@ class Gameplay extends JPanel implements KeyListener {
 
 
 
-//    public void spawnTargets() {
-//        Random random = new Random();
-//        int chance = random.nextInt(100);
-//        if (chance < 5) {
-//            int x = random.nextInt(WIDTH - 100);
-//            int y = 0;
-//            int radius = 50;
-//            int number = random.nextInt(10) + 1;
-//            BufferedImage image = new BufferedImage(radius * 2, radius * 2, BufferedImage.TYPE_INT_ARGB);
-//            Graphics2D g = image.createGraphics();
-//            g.setColor(Color.YELLOW);
-//            g.fillOval(0, 0, radius * 2, radius * 2);
-//            g.setColor(Color.BLACK);
-//            g.setFont(new Font("Arial", Font.BOLD, radius));
-//            int stringWidth = g.getFontMetrics().stringWidth(Integer.toString(number));
-//            g.drawString(Integer.toString(number), radius - stringWidth / 2, radius + radius / 2);
-//            g.dispose();
-//
-//        }
-//    }
+    public void spawnTargets() {
+        Random random = new Random();
+        int chance = random.nextInt(100);
+        if (chance < 5) {
+            int x = random.nextInt(WIDTH - 100);
+            int y = 0;
+            int radius = 50;
+            int number = random.nextInt(10) + 1;
+            BufferedImage image = new BufferedImage(radius * 2, radius * 2, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = image.createGraphics();
+            g.setColor(Color.YELLOW);
+            g.fillOval(0, 0, radius * 2, radius * 2);
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.BOLD, radius));
+            int stringWidth = g.getFontMetrics().stringWidth(Integer.toString(number));
+            g.drawString(Integer.toString(number), radius - stringWidth / 2, radius + radius / 2);
+            g.dispose();
+
+        }
+    }
 }

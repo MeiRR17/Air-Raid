@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.util.Random;
 
 class Gameplay extends JPanel implements KeyListener {
     /*In this class we're going to combine the whole game*/
@@ -35,7 +33,7 @@ class Gameplay extends JPanel implements KeyListener {
 
         this.player = new Player(18, 180, new ImageIcon("Resource/Player/BLUE_TEAM/Option1.png").getImage());
         this.player.start();
-        this.player2 = new Player(WIDTH /8,600,140,150,150,new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
+        this.player2 = new Player(WIDTH /8,600, new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
         this.player2.start();
         this.bomb = new Bomb(player.getX(),player.getY(),50,50,10);
         this.bomb.start();

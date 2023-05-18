@@ -3,10 +3,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class GameOpening {
-    private JPanel panel;
-    private JButton startButton;
-    private static final int GAME_OPENING_WIDTH = 800;
-    private static final int GAME_OPENING_HEIGHT = 600;
+    private final JPanel panel;
+    private final JButton startButton;
 
     public GameOpening(JFrame jFrame, int GAME_OPENING_WIDTH, int GAME_OPENING_HEIGHT) {
         panel = new JPanel();

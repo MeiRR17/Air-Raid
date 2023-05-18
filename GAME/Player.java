@@ -1,5 +1,3 @@
-import Helper.Gameplay;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +10,6 @@ public class Player extends Thread {
     private final int WIDTH;
     private final int HEIGHT;
     private final int speed;
-    private Gameplay gameplay;
     private Image image;
 
     private Color color = Color.WHITE;
@@ -53,11 +50,7 @@ public class Player extends Thread {
     }
     public void run(){
         while (true){
-            if (this.moveX > 0 && this.moveX < 800/4){
-                this.START_X++;
-            }else {
-                this.START_X--;
-            }
+            this.START_X++;
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {

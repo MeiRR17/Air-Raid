@@ -120,8 +120,6 @@ class Gameplay extends JPanel implements KeyListener {
 
 
 //        Target target = new Target(100,100,50,50, new BufferedImage());
-
-
     }
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
@@ -136,7 +134,6 @@ class Gameplay extends JPanel implements KeyListener {
     private void miniLoop(){
 
     }
-
 
 
 
@@ -175,6 +172,7 @@ class Gameplay extends JPanel implements KeyListener {
             this.pressedKeys[toRelease] =false;
         }
     }
+
 
 
 

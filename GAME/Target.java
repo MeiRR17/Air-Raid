@@ -21,11 +21,14 @@ public class Target {
 
     }
     public void draw(Graphics g){
-        g.fillRect(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
-        g.setColor(Color.GREEN);
-        g.drawImage(image, START_X - radius, START_Y - radius, radius*2, radius * 2, null);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, radius));
+        if (this.START_Y < this.END_Y){
+            this.START_Y +=2;
+        }
+        g.fillRect(this.START_X,this.START_Y,this.SIZE,this.SIZE);
+        g.setColor(this.color);
+//        g.drawImage(image, START_X - radius, START_Y - radius, radius*2, radius * 2, null);
+//        g.setColor(Color.WHITE);
+//        g.setFont(new Font("Arial", Font.BOLD, radius));
 
         int stringWidth = g.getFontMetrics().stringWidth(Integer.toString(number));
         g.drawString(Integer.toString(number), START_X - stringWidth / 2, START_Y + radius / 2);

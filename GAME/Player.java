@@ -37,8 +37,6 @@ public class Player extends Thread {
     }
 
     public void paint(Graphics graphics){
-        graphics.fillRect(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
-        graphics.setColor(Color.black);
         graphics.drawImage(image, START_X, START_Y, START_X + WIDTH, START_Y + HEIGHT, 0, 0, image.getWidth(null), image.getHeight(null), null);
 
     }

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Window extends JFrame {
     private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 600;
+    private static final int WINDOW_HEIGHT = 800;
     ImageIcon icon = new ImageIcon("Resource/Window/gameIcon.jpg");
 
 

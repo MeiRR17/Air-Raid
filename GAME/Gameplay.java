@@ -20,7 +20,7 @@ class Gameplay extends JPanel implements KeyListener {
 
     private final Player player;
     private final Player player2;
-    private Target target;
+    private Target[] target;
     private final Bomb bomb;
     private final Bomb bomb2;
     private boolean[] pressedKeys;
@@ -42,13 +42,19 @@ class Gameplay extends JPanel implements KeyListener {
         this.bomb2 = new Bomb(player2.getX(),player2.getY(),50,50,10);
         this.bomb2.start();
         boolean isRunning = true;
+        this.target = new Target[7];
+        for (int i = 0; i < this.target.length; i++) {
+            Target target = new Target(3+ i*10,480,50,50,5,7);
+            this.target[i]= target;
+        }
+        this.spawnTargets();
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (this.player.getX() >= GAMEPLAY_WIDTH && (this.bomb.getX() == GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY())){// Makes the player loop
+                if (this.player.getX() > GAMEPLAY_WIDTH && (this.bomb.getX() >= GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY())){// Makes the player loop
                     this.player.setX(-30);
                     this.bomb.setX(-30);
                 }
@@ -100,6 +106,9 @@ class Gameplay extends JPanel implements KeyListener {
         this.player2.paint(graphics);
         this.bomb.draw(graphics);
         this.bomb2.draw(graphics);
+        for (int i = 0; i < this.target.length; i++) {
+            this.target[i].draw(graphics);
+        }
     }
     private void miniLoop(){
 

@@ -55,6 +55,8 @@ public class Bomb extends Thread{
 
 
 
+
+
     public void reload(int playersX, int playersY){
         this.START_X = playersX;
         this.START_Y = playersY;
@@ -62,7 +64,7 @@ public class Bomb extends Thread{
 
     public void draw(Graphics g) {
         g.setColor(Color.black);
-        g.fillOval(START_X, START_Y, WIDTH, HEIGHT);
+        g.fillOval(START_X+25, START_Y+25, WIDTH-10, HEIGHT-10);
     }
     public void run(){
         while (true){

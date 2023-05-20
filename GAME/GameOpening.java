@@ -27,11 +27,11 @@ public class GameOpening {
         startButtonPanel.setBackground(Color.BLUE.brighter());
 
         startButton = new JButton("START");
-        startButton.setBackground(Color.BLUE.brighter());
-        startButton.setForeground(Color.WHITE);
-        startButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-        startButtonPanel.add(startButton);
+        startButton.setBackground(Color.GRAY.brighter());
 
+        startButton.setForeground(Color.BLACK);
+        startButton.setFont(new Font("Times New Roman", Font.PLAIN, 55));
+        startButtonPanel.add(startButton);
         titlePanel.add(startButtonPanel);
 
         jFrame.add(titlePanel);

@@ -44,11 +44,11 @@ class Gameplay extends JPanel implements KeyListener {
                 };
         String [] styleOptionsOrange =
                 {
-                        "Resource/Player/BLUE_TEAM/option1.png",
-                        "Resource/Player/BLUE_TEAM/option2.png",
-                        "Resource/Player/BLUE_TEAM/option3.png",
-                        "Resource/Player/BLUE_TEAM/option4.png",
-                        "Resource/Player/BLUE_TEAM/option5.png"
+                        "Resource/Player/ORANGE_TEAM/option1.png",
+                        "Resource/Player/ORANGE_TEAM/option2.png",
+                        "Resource/Player/ORANGE_TEAM/option3.png",
+                        "Resource/Player/ORANGE_TEAM/option4.png",
+                        "Resource/Player/ORANGE_TEAM/option5.png"
                 };
         String blueRandom = (styleOptionsBlue[new Random().nextInt(styleOptionsBlue.length)]);
         String orangeRandom = (styleOptionsOrange[new Random().nextInt(styleOptionsOrange.length)]);

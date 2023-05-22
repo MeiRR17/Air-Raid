@@ -9,6 +9,7 @@ public class Bomb extends Thread{
     private final int WIDTH;
     private final int HEIGHT;
     private boolean canDrop;
+    private int points;
 
 
     public Bomb(int START_X, int START_Y, int width, int height,int sleep){
@@ -23,12 +24,12 @@ public class Bomb extends Thread{
     }
 
     public void moveRight(){
-        START_Y++;
-        START_X++;
+        START_Y += 2;
+        START_X ++;
     }
     public void moveLeft(){
-        START_Y++;
-        START_X--;
+        START_Y += 2;
+        START_X --;
     }
     public int getX(){
         return START_X;

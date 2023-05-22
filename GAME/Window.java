@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class Window extends JFrame {
     private static final int WINDOW_WIDTH = 800;
@@ -9,6 +8,7 @@ public class Window extends JFrame {
 
 
     public Window(){
+
         setIconImage(icon.getImage());
         this.setTitle("Air Raid");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT); /*Set the size of the JFrame*/

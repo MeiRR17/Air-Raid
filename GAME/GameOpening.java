@@ -3,14 +3,11 @@ import java.awt.*;
 
 public class GameOpening {
     private ImageIcon background;
-    private final JLabel backgroundsLabel;
     private final JPanel titlePanel;
     private final JButton startButton;
 
 
     public GameOpening(JFrame jFrame, int GAME_OPENING_WIDTH, int GAME_OPENING_HEIGHT) {
-        backgroundsLabel = new JLabel(new ImageIcon("Resource/General/Background.png"));
-        backgroundsLabel.setSize(800, 800);
 
 
         titlePanel = new JPanel();

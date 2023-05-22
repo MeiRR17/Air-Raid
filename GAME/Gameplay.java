@@ -3,10 +3,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 class Gameplay extends JPanel implements KeyListener {
-    /*In this class we're going to combine the whole game*/
     private static final int TARGET_RADIUS = 30;
     private static final int PLAYER_WIDTH = 60;
     private static final int PLAYER_HEIGHT = 70;
@@ -28,10 +29,21 @@ class Gameplay extends JPanel implements KeyListener {
     public static final int SPACE =1;
 
     public Gameplay(int START_X, int START_Y, int GAMEPLAY_WIDTH, int GAMEPLAY_HEIGHT){
+
         this.setBounds(START_X, START_Y, GAMEPLAY_WIDTH, GAMEPLAY_HEIGHT);
-        this.setBackground(Color.BLUE.brighter());
+        this.setBackground(Color.BLUE);
+
         this.pressedKeys = new boolean[2];
 
+        InputStream is = getClass().getResourceAsStream("Resource/Font/Pixel.ttf");
+        try {
+            if (is != null) {
+                /*In this class we're going to combine the whole game*/
+                Font pixelFont = Font.createFont(Font.TRUETYPE_FONT, is);
+            }
+        } catch (FontFormatException | IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         String [] styleOptionsBlue =
@@ -122,6 +134,7 @@ class Gameplay extends JPanel implements KeyListener {
 //        Target target = new Target(100,100,50,50, new BufferedImage());
     }
     public void paintComponent(Graphics graphics){
+
         super.paintComponent(graphics);
         this.blue.paint(graphics);
         this.orange.paint(graphics);

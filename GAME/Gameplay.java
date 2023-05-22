@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -19,18 +18,18 @@ class Gameplay extends JPanel implements KeyListener {
     private static final int WIDTH =800;
     private static final int HEIGHT =600;
 
-    private final Player player;
-    private final Player player2;
+    private final Player blue;
+    private final Player orange;
+    private final Bomb blueBomb;
+    private final Bomb orangeBomb;
     private final Target[][] target;
-    private final Bomb bomb;
-    private final Bomb bomb2;
+
     private final boolean[] pressedKeys;
     private static final int ENTER =0;
     private static final int SPACE =1;
     private static final int ROWS=7;
     private static final int COLUMN=37;
     private static int count1=0;
-    private static int count2=0;
 
     private final Image background = new ImageIcon("Resource/General/Background.png").getImage();
 
@@ -73,14 +72,14 @@ class Gameplay extends JPanel implements KeyListener {
 
         Image bluePlane = new ImageIcon(blueRandom).getImage();
         Image orangePlane = new ImageIcon(orangeRandom).getImage();
-        this.player = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
-        this.player.start();
-        this.player2 = new Player(WIDTH /8,600,140,150,150,new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
-        this.player2.start();
-        this.bomb = new Bomb(player.getX(),player.getY(),50,50,10);
-        this.bomb.start();
-        this.bomb2 = new Bomb(player2.getX(),player2.getY(),50,50,10);
-        this.bomb2.start();
+        this.blue = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon(styleOptionsBlue[new Random().nextInt(styleOptionsBlue.length)]).getImage());
+        this.blue.start();
+        this.orange = new Player(WIDTH /8,600,140,150,150,new ImageIcon(styleOptionsOrange[new Random().nextInt(styleOptionsOrange.length)]).getImage());
+        this.orange.start();
+        this.blueBomb = new Bomb(blue.getX(), blue.getY(),50,50,10);
+        this.blueBomb.start();
+        this.orangeBomb = new Bomb(orange.getX(), orange.getY(),50,50,10);
+        this.orangeBomb.start();
         boolean isRunning = true;
         this.target = new Target[ROWS][COLUMN];
         Target target = new Target(3,480,18,18,5,7, new ImageIcon("Resource/Target/1.png").getImage());
@@ -99,66 +98,58 @@ class Gameplay extends JPanel implements KeyListener {
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (this.player.getX() > GAMEPLAY_WIDTH && (this.bomb.getX() >= GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY())){// Makes the player loop
-                    this.player.setX(-30);
-                    this.bomb.setX(-30);
+                if (this.blue.getX() > GAMEPLAY_WIDTH && (this.blueBomb.getX() >= GAMEPLAY_WIDTH && this.blueBomb.getY() == this.blue.getY())){// Makes the player loop
+                    this.blue.setX(-30);
+                    this.blueBomb.setX(-30);
                 }
-                if (this.player2.getX()<-40 && (this.bomb2.getX() < -40 && this.bomb2.getY() == this.player2.getY())){
-                    this.player2.setX(GAMEPLAY_WIDTH+30);
-                    this.bomb2.setX(GAMEPLAY_WIDTH+30);
+                if (this.orange.getX()<-40 && (this.orangeBomb.getX() < -40 && this.orangeBomb.getY() == this.orange.getY())){
+                    this.orange.setX(GAMEPLAY_WIDTH+30);
+                    this.orangeBomb.setX(GAMEPLAY_WIDTH+30);
                 }
 
                 if (this.pressedKeys[ENTER]){ // When pressed enter it drops the bomb
-                    this.bomb.moveRight();
-                    this.bomb.setSLEEP(40);
+                    this.blueBomb.moveRight();
+                    this.blueBomb.setSLEEP(40);
                 }
                 if (this.pressedKeys[SPACE]) {
-                    this.bomb2.moveLeft();
-                    this.bomb2.setSLEEP(40);
+                    this.orangeBomb.moveLeft();
+                    this.orangeBomb.setSLEEP(40);
                 }
-                if (this.bomb.getY() == GAMEPLAY_HEIGHT ){ // Makes the bomb return after hitting something
-                    this.bomb.reload(player.getX(),player.getY());
-                    this.bomb.setSLEEP(10);
+                if (this.blueBomb.getY() == GAMEPLAY_HEIGHT ){ // Makes the bomb return after hitting something
+                    this.blueBomb.reload(blue.getX(), blue.getY());
+                    this.blueBomb.setSLEEP(10);
                     this.pressedKeys[ENTER] =false;
-                    if (this.bomb.getX() == GAMEPLAY_WIDTH){
-                        this.bomb.setX(this.player.getX());
+                    if (this.blueBomb.getX() == GAMEPLAY_WIDTH){
+                        this.blueBomb.setX(this.blue.getX());
                     }
                 }
-                if (this.bomb2.getY() == GAMEPLAY_HEIGHT ){
-                    this.bomb2.reload(this.player2.getX(),this.player2.getY());
-                    this.bomb2.setSLEEP(10);
+                if (this.orangeBomb.getY() == GAMEPLAY_HEIGHT ){
+                    this.orangeBomb.reload(this.orange.getX(),this.orange.getY());
+                    this.orangeBomb.setSLEEP(10);
                     this.pressedKeys[SPACE] = false;
-                    if (this.bomb2.getX() == -10){
-                        this.bomb2.setX(this.bomb2.getX());
+                    if (this.orangeBomb.getX() == -10){
+                        this.orangeBomb.setX(this.orangeBomb.getX());
                     }
                 }
-                Rectangle bombRect = this.bomb.calculateRectangle();
-                Rectangle bomb2Rect = this.bomb2.calculateRectangle();
+                Rectangle bombRect = this.blueBomb.calculateRectangle();
+                Rectangle bomb2Rect = this.orangeBomb.calculateRectangle();
                 for (int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLUMN; j++) {
                         Rectangle targetRect= this.target[i][j].calculateRectangle();
                         if (Utils.checkCollision(bombRect,targetRect) || Utils.checkCollision(bomb2Rect,targetRect)){
                             this.target[i][j] = new Target(0,0,0,0,0,0, new ImageIcon("Resource/Target/1.png").getImage());// That may cause the problem
                             count1++;
-                            count2++;
                         }
                         if (count1==4){
                             count1 =0;
-                            this.bomb2.reload(this.player2.getX(),this.player2.getY());
-                            this.bomb2.setSLEEP(10);
-                            this.pressedKeys[SPACE] = false;
-                        }
-                        if (count2==4){
-                            count2=0;
-                            this.bomb.reload(player.getX(),player.getY());
-                            this.bomb.setSLEEP(10);
-                            this.pressedKeys[ENTER] =false;
+                            this.orangeBomb.reload(this.orange.getX(),this.orange.getY());
+                            this.orangeBomb.setSLEEP(10);
                         }
                         if (i!=0 && this.target[i-1][j].getY()!=0 && this.target[i][j].getY()==0){
                             this.target[i-1][j].fallDown();
-                            if (this.target[i-1][j].getY() == this.target[i][j].getY() && this.target[i][j].getX()!=0){
-                                this.target[i-1][j].set_Y(this.target[i][j].getY());
-                            }
+//                            if (this.target[i-1][j].getY() == this.target[i][j].getY() && this.target[i][j].getX()!=0){
+//                                this.target[i-1][j].setEND_Y(this.target[i][j].getY());
+//                            }
 //                            if (this.target[i-1][j].getY() == this.target[7][j].getY() && this.target[7][j].getX()==0){
 //                                this.target[i-1][j].setEND_Y(this.target[7][j].getY());
 //                            }
@@ -187,10 +178,10 @@ class Gameplay extends JPanel implements KeyListener {
         graphics.drawImage(background, 0, 0, null);
 
         // Paint other components
-        this.player.paint(graphics);
-        this.player2.paint(graphics);
-        this.bomb.draw(graphics);
-        this.bomb2.draw(graphics);
+        this.blue.paint(graphics);
+        this.orange.paint(graphics);
+        this.blueBomb.draw(graphics);
+        this.orangeBomb.draw(graphics);
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMN; j++) {
                 this.target[i][j].draw(graphics);
@@ -225,11 +216,11 @@ class Gameplay extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         Integer toRelease = null;
-        if (this.bomb.getY() == HEIGHT) {
+        if (this.blueBomb.getY() == HEIGHT) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 toRelease = ENTER;
             }
-        } else if (this.bomb2.getY() == HEIGHT) {
+        } else if (this.orangeBomb.getY() == HEIGHT) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 toRelease = SPACE;
             }

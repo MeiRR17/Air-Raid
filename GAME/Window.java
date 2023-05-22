@@ -5,10 +5,10 @@ public class Window extends JFrame {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 800;
     ImageIcon icon = new ImageIcon("Resource/Window/gameIcon.jpg");
+    private final Image background;
 
-
-    public Window(){
-
+    public Window(Image background){
+        this.background = background;
         setIconImage(icon.getImage());
         this.setTitle("Air Raid");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT); /*Set the size of the JFrame*/
@@ -32,8 +32,11 @@ public class Window extends JFrame {
         });
         /*Create new Gameplay Object and make it the same size as the window*/
     }
+    public void paint(Graphics g){
+        super.paint(g);
+        g.drawImage(background, 0, 0, null);
+    }
     public void showWindow(){//This method will make the JFrame visible
         this.setVisible(true);/*JFrame's build-in method to set it to be visible*/
     }
-
 }

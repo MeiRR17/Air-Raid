@@ -2,14 +2,16 @@ import java.awt.*;
 
 public class Bomb extends Thread{
     private int START_X;
-    private int moveX;
+    private final int moveX;
+    private final int moveY;
     private int SLEEP;
     private int START_Y;
-    private int moveY;
+
     private final int WIDTH;
     private final int HEIGHT;
     private boolean canDrop;
     private int points;
+
 
 
     public Bomb(int START_X, int START_Y, int width, int height,int sleep){

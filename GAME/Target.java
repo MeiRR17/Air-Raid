@@ -8,10 +8,11 @@ public class Target extends Thread {
     private int radius;
     private int END_Y;
     private int number;//number shown on the target
-    private BufferedImage image;
     private Gameplay gameplay;
+    private Image image;
 
-    public Target(int START_X, int START_Y, int WIDTH, int HEIGHT, int radius, int number) {
+
+    public Target(int START_X, int START_Y, int WIDTH, int HEIGHT, int radius, int number, Image image) {
         this.START_X = START_X;
         this.START_Y = START_Y;
         this.END_Y = START_Y;
@@ -19,17 +20,10 @@ public class Target extends Thread {
         this.HEIGHT = HEIGHT;
         this.radius = radius;
         this.number = number;
-
+        this.image = image;
     }
     public void draw(Graphics g){
-        g.fillRect(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
-        g.setColor(Color.GREEN);
-        g.drawImage(image, START_X - radius, START_Y - radius, radius*2, radius * 2, null);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, radius));
-
-        int stringWidth = g.getFontMetrics().stringWidth(Integer.toString(number));
-        g.drawString(Integer.toString(number), START_X - stringWidth / 2, START_Y + radius / 2);
+        g.drawImage(image, START_X, START_Y, START_X + WIDTH, START_Y + HEIGHT, 0, 0, image.getWidth(null), image.getHeight(null), null);
     }
 
     public boolean hit(int START_X, int START_Y){

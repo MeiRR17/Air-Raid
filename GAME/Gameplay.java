@@ -80,10 +80,10 @@ class Gameplay extends JPanel implements KeyListener {
         this.bomb2.start();
         boolean isRunning = true;
         this.target = new Target[ROWS][COLUMN];
-        Target target = new Target(3,480,18,18,5,7);
+        Target target = new Target(3,480,18,18,5,7, new ImageIcon("Resource/Target/1.png").getImage());
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMN; j++) {
-                Target target2 = new Target(j*(target.getX()+target.getHEIGHT()),target.getY()+(i*target.getWIDTH()),20,20,5,7);
+                Target target2 = new Target(j*(target.getX()+target.getHEIGHT()),target.getY()+(i*target.getWIDTH()),20,20,5,7, new ImageIcon("Resource/Target/1.png").getImage());
                 this.target[i][j]= target2;
                 this.target[i][j].start();
             }
@@ -153,13 +153,20 @@ class Gameplay extends JPanel implements KeyListener {
             }
         }).start();
 
+        this.addKeyListener(this);
+        this.setFocusable(true);
+        this.requestFocus();
 
 
 
     }
-    public void paintComponent(Graphics graphics){
-
+    public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
+
+        // Paint the background first
+        graphics.drawImage(background, 0, 0, null);
+
+        // Paint other components
         this.player.paint(graphics);
         this.player2.paint(graphics);
         this.bomb.draw(graphics);
@@ -198,44 +205,21 @@ class Gameplay extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         Integer toRelease = null;
-        if (this.bomb.getY() == HEIGHT){
+        if (this.bomb.getY() == HEIGHT) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 toRelease = ENTER;
             }
-        }
-        else if (this.bomb2.getY() == HEIGHT) {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE){
+        } else if (this.bomb2.getY() == HEIGHT) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 toRelease = SPACE;
             }
         }
-        if (toRelease != null){
-            this.pressedKeys[toRelease] =false;
+        if (toRelease != null) {
+            this.pressedKeys[toRelease] = false;
         }
     }
 
-
-
-
-
-
-    public void spawnTargets() {
-        Random random = new Random();
-        int chance = random.nextInt(100);
-        if (chance < 5) {
-            int x = random.nextInt(WIDTH - 100);
-            int y = 0;
-            int radius = 50;
-            int number = random.nextInt(10) + 1;
-            BufferedImage image = new BufferedImage(radius * 2, radius * 2, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = image.createGraphics();
-            g.setColor(Color.YELLOW);
-            g.fillOval(0, 0, radius * 2, radius * 2);
-            g.setColor(Color.BLACK);
-            g.setFont(new Font("Arial", Font.BOLD, radius));
-            int stringWidth = g.getFontMetrics().stringWidth(Integer.toString(number));
-            g.drawString(Integer.toString(number), radius - stringWidth / 2, radius + radius / 2);
-            g.dispose();
-
-        }
+    public Dimension getPreferredSize() {
+        return new Dimension(WIDTH, HEIGHT);
     }
 }

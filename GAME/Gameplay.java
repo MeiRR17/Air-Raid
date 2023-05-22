@@ -16,17 +16,20 @@ class Gameplay extends JPanel implements KeyListener {
     private static final int BOMB_SPEED = 5;
     private static final int TARGET_POINTS = 10;
     private static final int BOMB_POINTS = -5;
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH =800;
+    private static final int HEIGHT =600;
 
-    private final Player blue;
-    private final Player orange;
-    private Target[] target;
+    private final Player player;
+    private final Player player2;
+    private final Target[][] target;
     private final Bomb bomb;
     private final Bomb bomb2;
-    private boolean[] pressedKeys;
-    public static final int ENTER =0;
-    public static final int SPACE =1;
+    private final boolean[] pressedKeys;
+    private static final int ENTER =0;
+    private static final int SPACE =1;
+    private static final int ROWS=7;
+    private static final int COLUMN=37;
+    private final Image background = new ImageIcon("Resource/General/Background.png").getImage();
 
     public Gameplay(int START_X, int START_Y, int GAMEPLAY_WIDTH, int GAMEPLAY_HEIGHT){
 
@@ -56,45 +59,52 @@ class Gameplay extends JPanel implements KeyListener {
                 };
         String [] styleOptionsOrange =
                 {
-                        "Resource/Player/ORANGE_TEAM/option1.png",
-                        "Resource/Player/ORANGE_TEAM/option2.png",
-                        "Resource/Player/ORANGE_TEAM/option3.png",
-                        "Resource/Player/ORANGE_TEAM/option4.png",
-                        "Resource/Player/ORANGE_TEAM/option5.png"
+                        "Resource/Player/BLUE_TEAM/option1.png",
+                        "Resource/Player/BLUE_TEAM/option2.png",
+                        "Resource/Player/BLUE_TEAM/option3.png",
+                        "Resource/Player/BLUE_TEAM/option4.png",
+                        "Resource/Player/BLUE_TEAM/option5.png"
                 };
         String blueRandom = (styleOptionsBlue[new Random().nextInt(styleOptionsBlue.length)]);
         String orangeRandom = (styleOptionsOrange[new Random().nextInt(styleOptionsOrange.length)]);
 
         Image bluePlane = new ImageIcon(blueRandom).getImage();
         Image orangePlane = new ImageIcon(orangeRandom).getImage();
-
-        this.blue = new Player(WIDTH / 8, 18, 180 ,bluePlane.getWidth(null) / 6 ,bluePlane.getHeight(null) / 6  , bluePlane);
-        this.blue.start();
-        this.orange = new Player(WIDTH /8,600,140,orangePlane.getWidth(null) / 6 ,orangePlane.getHeight(null) / 6  , orangePlane);
-        this.orange.start();
-        this.bomb = new Bomb(blue.getX(),blue.getY(),50,50,10);
+        this.player = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
+        this.player.start();
+        this.player2 = new Player(WIDTH /8,600,140,150,150,new ImageIcon("Resource/Window/gameIcon.jpg").getImage());
+        this.player2.start();
+        this.bomb = new Bomb(player.getX(),player.getY(),50,50,10);
         this.bomb.start();
-        this.bomb2 = new Bomb(orange.getX(),orange.getY(),50,50,10);
+        this.bomb2 = new Bomb(player2.getX(),player2.getY(),50,50,10);
         this.bomb2.start();
         boolean isRunning = true;
-        this.target = new Target[7];
-        for (int i = 0; i < this.target.length; i++) {
-            Target target = new Target(0+ (i+1)*2,480,40,Color.yellow);
-            this.target[i]=target;
+        this.target = new Target[ROWS][COLUMN];
+        Target target = new Target(3,480,18,18,5,7);
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMN; j++) {
+                Target target2 = new Target(j*(target.getX()+target.getHEIGHT()),target.getY()+(i*target.getWIDTH()),20,20,5,7);
+                this.target[i][j]= target2;
+                this.target[i][j].start();
+            }
         }
+
+
         this.spawnTargets();
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
+
+
         new Thread(() -> {
             while (true) {
                 repaint();
-                if (this.blue.getX() > GAMEPLAY_WIDTH && (this.bomb.getX() >= GAMEPLAY_WIDTH && this.bomb.getY() == this.blue.getY())){// Makes the player loop
-                    this.blue.setX(-30);
+                if (this.player.getX() > GAMEPLAY_WIDTH && (this.bomb.getX() >= GAMEPLAY_WIDTH && this.bomb.getY() == this.player.getY())){// Makes the player loop
+                    this.player.setX(-30);
                     this.bomb.setX(-30);
                 }
-                if (this.orange.getX()<-40 && (this.bomb2.getX() < -40 && this.bomb2.getY() == this.orange.getY())){
-                    this.orange.setX(GAMEPLAY_WIDTH+30);
+                if (this.player2.getX()<-40 && (this.bomb2.getX() < -40 && this.bomb2.getY() == this.player2.getY())){
+                    this.player2.setX(GAMEPLAY_WIDTH+30);
                     this.bomb2.setX(GAMEPLAY_WIDTH+30);
                 }
 
@@ -107,19 +117,32 @@ class Gameplay extends JPanel implements KeyListener {
                     this.bomb2.setSLEEP(40);
                 }
                 if (this.bomb.getY() == GAMEPLAY_HEIGHT){ // Makes the bomb return after hitting something
-                    this.bomb.reload(blue.getX(),blue.getY());
+                    this.bomb.reload(player.getX(),player.getY());
                     this.bomb.setSLEEP(10);
                     this.pressedKeys[ENTER] =false;
                     if (this.bomb.getX() == GAMEPLAY_WIDTH){
-                        this.bomb.setX(this.blue.getX());
+                        this.bomb.setX(this.player.getX());
                     }
                 }
                 if (this.bomb2.getY() == GAMEPLAY_HEIGHT){
-                    this.bomb2.reload(this.orange.getX(),this.orange.getY());
+                    this.bomb2.reload(this.player2.getX(),this.player2.getY());
                     this.bomb2.setSLEEP(10);
                     this.pressedKeys[SPACE] = false;
                     if (this.bomb2.getX() == -10){
                         this.bomb2.setX(this.bomb2.getX());
+                    }
+                }
+                Rectangle bombRect = this.bomb.calculateRectangle();
+                Rectangle bomb2Rect = this.bomb2.calculateRectangle();
+                for (int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLUMN; j++) {
+                        Rectangle targetRect= this.target[i][j].calculateRectangle();
+                        if (Utils.checkCollision(bombRect,targetRect) || Utils.checkCollision(bomb2Rect,targetRect)){
+                            this.target[i][j] = new Target(0,0,0,0,0,0);// That may cause the problem
+                        }
+                        if (i!=0 && this.target[i-1][j].getY()!=0 && this.target[i][j].getY()==0){
+                            this.target[i-1][j].fallDown();
+                        }
                     }
                 }
                 try {
@@ -131,22 +154,26 @@ class Gameplay extends JPanel implements KeyListener {
         }).start();
 
 
-//        Target target = new Target(100,100,50,50, new BufferedImage());
+
+
     }
     public void paintComponent(Graphics graphics){
 
         super.paintComponent(graphics);
-        this.blue.paint(graphics);
-        this.orange.paint(graphics);
+        this.player.paint(graphics);
+        this.player2.paint(graphics);
         this.bomb.draw(graphics);
         this.bomb2.draw(graphics);
-        for (int i = 0; i < this.target.length; i++) {
-            this.target[i].draw(graphics);
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMN; j++) {
+                this.target[i][j].draw(graphics);
+            }
         }
     }
     private void miniLoop(){
 
     }
+
 
 
 
@@ -185,7 +212,6 @@ class Gameplay extends JPanel implements KeyListener {
             this.pressedKeys[toRelease] =false;
         }
     }
-
 
 
 

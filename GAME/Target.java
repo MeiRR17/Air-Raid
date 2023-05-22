@@ -36,6 +36,9 @@ public class Target extends Thread {
         this.START_Y++;
         this.END_Y +=20;
     }
+    public void setY(int START_Y){
+        this.START_Y=START_Y;
+    }
 
     public int getNumber(){
         return this.number;

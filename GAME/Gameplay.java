@@ -30,6 +30,7 @@ class Gameplay extends JPanel implements KeyListener {
     private static final int ROWS=7;
     private static final int COLUMN=37;
     private static int count1=0;
+    private static int count2=0;
 
     private final Image background = new ImageIcon("Resource/General/Background.png").getImage();
 
@@ -139,17 +140,25 @@ class Gameplay extends JPanel implements KeyListener {
                         if (Utils.checkCollision(bombRect,targetRect) || Utils.checkCollision(bomb2Rect,targetRect)){
                             this.target[i][j] = new Target(0,0,0,0,0,0, new ImageIcon("Resource/Target/1.png").getImage());// That may cause the problem
                             count1++;
+                            count2++;
                         }
                         if (count1==4){
                             count1 =0;
                             this.bomb2.reload(this.player2.getX(),this.player2.getY());
                             this.bomb2.setSLEEP(10);
+                            this.pressedKeys[SPACE] = false;
+                        }
+                        if (count2==4){
+                            count2=0;
+                            this.bomb.reload(player.getX(),player.getY());
+                            this.bomb.setSLEEP(10);
+                            this.pressedKeys[ENTER] =false;
                         }
                         if (i!=0 && this.target[i-1][j].getY()!=0 && this.target[i][j].getY()==0){
                             this.target[i-1][j].fallDown();
-//                            if (this.target[i-1][j].getY() == this.target[i][j].getY() && this.target[i][j].getX()!=0){
-//                                this.target[i-1][j].setEND_Y(this.target[i][j].getY());
-//                            }
+                            if (this.target[i-1][j].getY() == this.target[i][j].getY() && this.target[i][j].getX()!=0){
+                                this.target[i-1][j].set_Y(this.target[i][j].getY());
+                            }
 //                            if (this.target[i-1][j].getY() == this.target[7][j].getY() && this.target[7][j].getX()==0){
 //                                this.target[i-1][j].setEND_Y(this.target[7][j].getY());
 //                            }

@@ -75,6 +75,10 @@ public class Target extends Thread {
         return falls;
     }
 
+    public void set_Y(int y) {
+        this.START_Y =y;
+    }
+
     public void run(){
         while (true){
             if (this.START_Y != 610 && this.START_Y==this.END_Y ){

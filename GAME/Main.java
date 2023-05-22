@@ -5,6 +5,5 @@ public class Main {
         /*Main Class*/
         Window window = new Window(new ImageIcon("Resource/General/background.png").getImage());/*Create the window object*/
         window.showWindow();/*Make the window object to show up*/
-
     }
 }

@@ -30,6 +30,10 @@ class Gameplay extends JPanel implements KeyListener {
     private static final int ROWS=7;
     private static final int COLUMN=37;
     private static int count1=0;
+    private static int count2=0;
+    private static boolean canFall=true;
+
+
 
     private final Image background = new ImageIcon("Resource/General/Background.png").getImage();
 
@@ -117,9 +121,9 @@ class Gameplay extends JPanel implements KeyListener {
                     this.blue.setX(-30);
                     this.blueBomb.setX(-30);
                 }
-                if (this.orange.getX()<-40 && (this.orangeBomb.getX() < -40 && this.orangeBomb.getY() == this.orange.getY())){
-                    this.orange.setX(GAMEPLAY_WIDTH+30);
-                    this.orangeBomb.setX(GAMEPLAY_WIDTH+30);
+                if (this.orange.getX()<-40 && (this.orangeBomb.getX() <-40 && this.orangeBomb.getY() == this.orange.getY())){
+                    this.orange.setX(GAMEPLAY_WIDTH+20);
+                    this.orangeBomb.setX(GAMEPLAY_WIDTH+20);
                 }
 
                 if (this.pressedKeys[ENTER]){ // When pressed enter it drops the bomb
@@ -151,22 +155,35 @@ class Gameplay extends JPanel implements KeyListener {
                 for (int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLUMN; j++) {
                         Rectangle targetRect= this.target[i][j].calculateRectangle();
-                        if (Utils.checkCollision(bombRect,targetRect) || Utils.checkCollision(bomb2Rect,targetRect)){
+                        if (Utils.checkCollision(bombRect,targetRect)){
                             this.target[i][j] = new Target(0,0,0,0,0,0, new ImageIcon("Resource/Target/1.png").getImage());// That may cause the problem
                             count1++;
                         }
-                        if (count1==4){
-                            count1 =0;
+                        if (Utils.checkCollision(bomb2Rect,targetRect)){
+                            this.target[i][j] = new Target(0,0,0,0,0,0, new ImageIcon("Resource/Target/1.png").getImage());// That may cause the problem
+                            count2++;
+                        }
+                        if (count2==4){
+                            count2 =0;
                             this.orangeBomb.reload(this.orange.getX(),this.orange.getY());
                             this.orangeBomb.setSLEEP(10);
+                            this.pressedKeys[SPACE] = false;
                         }
-                        if (i!=0 && this.target[i-1][j].getY()!=0 && this.target[i][j].getY()==0){
+                        if (count1==4){
+                            count1 =0;
+                            this.blueBomb.reload(this.blue.getX(),this.blue.getY());
+                            this.blueBomb.setSLEEP(10);
+                            this.pressedKeys[ENTER] =false;
+                        }
+                        if (i!=0 && this.target[i-1][j].getY()!=0 && this.target[i][j].getY()==0 && canFall){
                             this.target[i-1][j].fallDown();
-//                            if (this.target[i-1][j].getY() == this.target[i][j].getY() && this.target[i][j].getX()!=0){
-//                                this.target[i-1][j].setEND_Y(this.target[i][j].getY());
-//                            }
+                            if (this.target[i-1][j].getY() == this.target[i-1][j-1].getY() && this.target[i][j].getX()!=0 && j!=0){
+                                this.target[i-1][j].setEND_Y(this.target[i-1][j-1].getY());
+                                canFall = false;
+                            }
 //                            if (this.target[i-1][j].getY() == this.target[7][j].getY() && this.target[7][j].getX()==0){
 //                                this.target[i-1][j].setEND_Y(this.target[7][j].getY());
+//                                canFall = false;
 //                            }
                         }
                     }

@@ -5,10 +5,10 @@ public class GameOpening {
     private ImageIcon background;
     private final JPanel titlePanel;
     private final JButton startButton;
+    private JPanel startButtonPanel;
 
 
     public GameOpening(JFrame jFrame, int GAME_OPENING_WIDTH, int GAME_OPENING_HEIGHT) {
-
 
         titlePanel = new JPanel();
         titlePanel.setBounds(GAME_OPENING_WIDTH / 8, GAME_OPENING_HEIGHT / 6, GAME_OPENING_WIDTH / 4 * 3, GAME_OPENING_HEIGHT / 4);
@@ -21,7 +21,6 @@ public class GameOpening {
 
         JPanel startButtonPanel = new JPanel();
         startButtonPanel.setBounds(GAME_OPENING_WIDTH / 8 * 3, GAME_OPENING_HEIGHT / 6 * 4, GAME_OPENING_WIDTH / 4, GAME_OPENING_HEIGHT / 8);
-        startButtonPanel.setBackground(Color.BLUE.brighter());
 
         startButton = new JButton("START");
         startButton.setBackground(Color.GRAY.brighter());
@@ -30,11 +29,14 @@ public class GameOpening {
         startButton.setFont(new Font("Times New Roman", Font.PLAIN, 55));
         startButtonPanel.add(startButton);
         titlePanel.add(startButtonPanel);
-
+        jFrame.add(startButtonPanel);
         jFrame.add(titlePanel);
     }
-    public JPanel getPanel() {
+    public JPanel getTitlePanel() {
         return titlePanel;
+    }
+    public JPanel getTitleNameLabel(){
+        return startButtonPanel;
     }
 
     public JButton getStartButton() {

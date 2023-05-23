@@ -59,30 +59,45 @@ class Gameplay extends JPanel implements KeyListener {
                         "Resource/Player/BLUE_TEAM/option4.png",
                         "Resource/Player/BLUE_TEAM/option5.png"
                 };
+
+
         String [] styleOptionsOrange =
                 {
-                        "Resource/Player/BLUE_TEAM/option1.png",
-                        "Resource/Player/BLUE_TEAM/option2.png",
-                        "Resource/Player/BLUE_TEAM/option3.png",
-                        "Resource/Player/BLUE_TEAM/option4.png",
-                        "Resource/Player/BLUE_TEAM/option5.png"
+                        "Resource/Player/ORANGE_TEAM/option1.png",
+                        "Resource/Player/ORANGE_TEAM/option2.png",
+                        "Resource/Player/ORANGE_TEAM/option3.png",
+                        "Resource/Player/ORANGE_TEAM/option4.png",
+                        "Resource/Player/ORANGE_TEAM/option5.png"
                 };
-        String blueRandom = (styleOptionsBlue[new Random().nextInt(styleOptionsBlue.length)]);
-        String orangeRandom = (styleOptionsOrange[new Random().nextInt(styleOptionsOrange.length)]);
 
-        Image bluePlane = new ImageIcon(blueRandom).getImage();
-        Image orangePlane = new ImageIcon(orangeRandom).getImage();
-        this.blue = new Player(WIDTH /8, 18, 180 ,150 ,150 , new ImageIcon(styleOptionsBlue[new Random().nextInt(styleOptionsBlue.length)]).getImage());
+
+
+        Image bluePlane =
+                new ImageIcon(styleOptionsBlue[new Random().nextInt(styleOptionsBlue.length)]).getImage();
+        Image orangePlane =
+                new ImageIcon(styleOptionsOrange[new Random().nextInt(styleOptionsOrange.length)]).getImage();
+
+        this.blue =
+                new Player(WIDTH / 2, WIDTH / 8, HEIGHT / 4 , bluePlane.getWidth(null) / 10, bluePlane.getHeight(null) / 10, bluePlane);
+        this.orange =
+                new Player(WIDTH / 2, WIDTH / 8 * 7, HEIGHT / 4, orangePlane.getWidth(null) / 10, orangePlane.getHeight(null) / 10, orangePlane);
+
+        this.blueBomb =
+                new Bomb(blue.getX(), blue.getY(), bluePlane.getWidth(null) / 30, bluePlane.getWidth(null) / 30, 10);
+        this.orangeBomb =
+                new Bomb(orange.getX(), orange.getY(), bluePlane.getWidth(null) / 30, bluePlane.getWidth(null) / 30, 10);
+
+
         this.blue.start();
-        this.orange = new Player(WIDTH /8,600,140,150,150,new ImageIcon(styleOptionsOrange[new Random().nextInt(styleOptionsOrange.length)]).getImage());
         this.orange.start();
-        this.blueBomb = new Bomb(blue.getX(), blue.getY(),50,50,10);
         this.blueBomb.start();
-        this.orangeBomb = new Bomb(orange.getX(), orange.getY(),50,50,10);
         this.orangeBomb.start();
+
         boolean isRunning = true;
+
         this.target = new Target[ROWS][COLUMN];
-        Target target = new Target(3,480,18,18,5,7, new ImageIcon("Resource/Target/1.png").getImage());
+        Target target = new Target(3, 480, 18, 18, 5, 7, new ImageIcon("Resource/Target/1.png").getImage());
+
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMN; j++) {
                 Target target2 = new Target(j*(target.getX()+target.getHEIGHT()),target.getY()+(i*target.getWIDTH()),20,20,5,7, new ImageIcon("Resource/Target/1.png").getImage());

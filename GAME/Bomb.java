@@ -11,10 +11,12 @@ public class Bomb extends Thread{
     private final int HEIGHT;
     private boolean canDrop;
     private int points;
+    private final Image image;
 
 
 
-    public Bomb(int START_X, int START_Y, int width, int height,int sleep){
+
+    public Bomb(int START_X, int START_Y, int width, int height, int sleep, Image image){
         this.START_X = START_X;
         this.moveX = START_X;
         this.START_Y = START_Y;
@@ -22,6 +24,7 @@ public class Bomb extends Thread{
         this.WIDTH = width;
         this.HEIGHT = height;
         this.SLEEP = sleep;
+        this.image = image;
         this.canDrop = true;
     }
 
@@ -33,6 +36,9 @@ public class Bomb extends Thread{
         START_Y += 2;
         START_X --;
     }
+
+
+
     public int getX(){
         return START_X;
     }
@@ -65,9 +71,8 @@ public class Bomb extends Thread{
         this.START_Y = playersY;
     }
 
-    public void draw(Graphics g) {
-        g.setColor(Color.black);
-        g.fillOval(START_X+25, START_Y+25, WIDTH-10, HEIGHT-10);
+    public void paint(Graphics graphics){
+        graphics.drawImage(image, START_X, START_Y, START_X + WIDTH, START_Y + HEIGHT, 0, 0, image.getWidth(null), image.getHeight(null), null);
     }
     public void run(){
         while (true){
@@ -82,5 +87,17 @@ public class Bomb extends Thread{
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public int getWIDTH() {
+        return WIDTH;
+    }
+
+    public int getHEIGHT() {
+        return HEIGHT;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }

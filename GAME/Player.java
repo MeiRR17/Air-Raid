@@ -8,6 +8,19 @@ public class Player extends Thread {
     private int START_X;
     private int moveX;
     private int START_Y;
+
+    public int getWIDTH() {
+        return WIDTH;
+    }
+
+    public int getHEIGHT() {
+        return HEIGHT;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
     private int moveY;
     private final int WIDTH;
     private final int HEIGHT;
@@ -15,12 +28,10 @@ public class Player extends Thread {
     private Gameplay gameplay;
     private final Image image;
 
-    private Color color = Color.WHITE;
-
     public Player (int speed, int START_X, int START_Y, int width, int height, Image image) {
         /*ADDED PLANE'S HEIGHT AND WIDTH*/
         this.START_X = START_X;
-        this.moveX=START_X;
+        this.moveX = START_X;
         this.START_Y = START_Y;
         this.moveY = START_Y;
         this.WIDTH = width;
@@ -61,5 +72,9 @@ public class Player extends Thread {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void setY(int y) {
+        this.START_Y = y;
     }
 }

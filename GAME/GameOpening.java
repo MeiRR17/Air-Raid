@@ -30,7 +30,7 @@ public class GameOpening {
         startButtonPanel.add(startButton);
         titlePanel.add(startButtonPanel);
         jFrame.add(startButtonPanel);
-        jFrame.add(titlePanel);
+//        jFrame.add(titlePanel);
     }
     public JPanel getTitlePanel() {
         return titlePanel;

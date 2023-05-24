@@ -5,20 +5,18 @@ import java.awt.image.BufferedImage;
 public class Target extends Thread {
     private int START_X, START_Y;
     private int WIDTH, HEIGHT;
-    private int radius;
     private int END_Y;
     private int number;//number shown on the target
     private Gameplay gameplay;
     private Image image;
 
 
-    public Target(int START_X, int START_Y, int WIDTH, int HEIGHT, int radius, int number, Image image) {
+    public Target(int START_X, int START_Y, int WIDTH, int HEIGHT, int number, Image image) {
         this.START_X = START_X;
         this.START_Y = START_Y;
         this.END_Y = START_Y;
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
-        this.radius = radius;
         this.number = number;
         this.image = image;
     }
@@ -26,15 +24,11 @@ public class Target extends Thread {
         g.drawImage(image, START_X, START_Y, START_X + WIDTH, START_Y + HEIGHT, 0, 0, image.getWidth(null), image.getHeight(null), null);
     }
 
-    public boolean hit(int START_X, int START_Y){
-        return Math.pow((START_X - this.START_X), 2) + Math.pow((START_Y - this.START_Y), 2) <= Math.pow(radius, 2);
-    }
     public Rectangle calculateRectangle(){
         return new Rectangle(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
     }
     public void fallDown(){
         this.START_Y++;
-        this.END_Y +=20;
     }
     public void setY(int START_Y){
         this.START_Y=START_Y;
@@ -68,15 +62,11 @@ public class Target extends Thread {
         this.END_Y = END_Y;
     }
     public boolean canFall(){
-        boolean falls = false;
-        if (this.START_Y != this.END_Y){
-            falls = true;
-        }
-        return falls;
+        return this.START_Y != this.END_Y;
     }
 
     public void set_Y(int y) {
-        this.START_Y =y;
+        this.START_Y = y;
     }
 
     public void run(){
@@ -90,5 +80,17 @@ public class Target extends Thread {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public int getHeight() {
+        return this.HEIGHT;
+    }
+
+    public int getWidth() {
+        return this.WIDTH;
     }
 }

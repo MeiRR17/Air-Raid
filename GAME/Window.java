@@ -20,7 +20,7 @@ public class Window extends JFrame {
 
         GameOpening openingGame = new GameOpening(this, WINDOW_WIDTH, WINDOW_HEIGHT);
         add(openingGame.getTitlePanel());
-        add(openingGame.getTitleNameLabel());
+//        add(openingGame.getTitleNameLabel());
 
 
         Gameplay gameplay = new Gameplay(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);

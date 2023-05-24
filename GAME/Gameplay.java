@@ -67,6 +67,16 @@ private final Target[][] target;
             e.printStackTrace();
         }
 
+        Dimension size1 = orangeLabel.getPreferredSize();
+        Dimension size2 = blueLabel.getPreferredSize();
+        orangeLabel.setBounds(80,10,size1.width+50,size1.height);
+        blueLabel.setBounds(600,10,size2.width+50,size2.height);
+        orangeLabel.setForeground(new Color(104,4,4));
+        blueLabel.setForeground(new Color(0,0,104));
+        this.setLayout(null);
+        this.add(orangeLabel);
+        this.add(blueLabel);
+
 
         String [] styleOptionsBlue =
                 {

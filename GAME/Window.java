@@ -27,6 +27,7 @@ public class Window extends JFrame {
 
         openingGame.getStartButton().addActionListener(e -> {
             openingGame.getTitlePanel().setVisible(false);
+            openingGame.getStartButton().setVisible(false);
             add(gameplay);
             gameplay.requestFocusInWindow();
         });

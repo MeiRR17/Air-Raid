@@ -93,4 +93,32 @@ public class Target extends Thread {
     public int getWidth() {
         return this.WIDTH;
     }
+
+    public void setSTART_X(int START_X) {
+        this.START_X = START_X;
+    }
+
+    public void setSTART_Y(int START_Y) {
+        this.START_Y = START_Y;
+    }
+
+    public void setWIDTH(int WIDTH) {
+        this.WIDTH = WIDTH;
+    }
+
+    public void setHEIGHT(int HEIGHT) {
+        this.HEIGHT = HEIGHT;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setGameplay(Gameplay gameplay) {
+        this.gameplay = gameplay;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }

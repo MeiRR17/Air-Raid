@@ -116,6 +116,7 @@ public class Gameplay extends JPanel implements KeyListener
                 new ImageIcon("Resource/Bomb/Blue.png").getImage(),
                 new ImageIcon("Resource/Bomb/Orange.png").getImage()
         };
+        this.add(winner);
 
         planes = new Player[]{
                 new Player(
@@ -293,15 +294,15 @@ public class Gameplay extends JPanel implements KeyListener
     }
 
     private void handlePlayerLoop(int color, int startingPoint) {
-        if (this.planes[color].getX() > getWidth() &&
-                (this.bombs[color].getX() >= getWidth() && this.bombs[color].getY() == this.planes[color].getY())) {
+        if (this.planes[0].getX() > getWidth() &&
+                (this.bombs[0].getX() >= getWidth() && this.bombs[0].getY() == this.planes[0].getY())) {
             // Makes the player loop
-            this.planes[color].setX(startingPoint);
-            this.bombs[color].setX(startingPoint);
-        } else if (this.planes[color].getX() < -20 &&
-                (this.bombs[color].getX() <= -20 && this.bombs[color].getY() == this.planes[color].getY())) {
-            this.planes[color].setX(startingPoint);
-            this.bombs[color].setX(startingPoint);
+            this.planes[0].setX(-20);
+            this.bombs[0].setX(-20);
+        } else if (this.planes[1].getX() < -20 &&
+                (this.bombs[1].getX() <= -20 && this.bombs[1].getY() == this.planes[1].getY())) {
+            this.planes[1].setX(800+20);
+            this.bombs[1].setX(800+20);
         }
     }
     private void dropBomb(int bombIndex) {

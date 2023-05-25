@@ -2,17 +2,29 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameOpening {
-    private ImageIcon background;
     private final JPanel titlePanel;
     private final JButton startButton;
-    private JPanel startButtonPanel;
-
 
     public GameOpening(JFrame jFrame, int GAME_OPENING_WIDTH, int GAME_OPENING_HEIGHT) {
 
         titlePanel = new JPanel();
         titlePanel.setBounds(GAME_OPENING_WIDTH / 8, GAME_OPENING_HEIGHT / 6, GAME_OPENING_WIDTH / 4 * 3, GAME_OPENING_HEIGHT / 4);
-        titlePanel.setBackground(Color.BLUE.brighter());
+
+        // Set the layout of titlePanel to null to allow custom positioning
+        titlePanel.setLayout(null);
+
+        // Create a JLabel to hold the GIF
+        JLabel backgroundLabel = new JLabel();
+        backgroundLabel.setBounds(0, 0, titlePanel.getWidth(), titlePanel.getHeight());
+
+        // Load the GIF file and create an ImageIcon
+        ImageIcon gifIcon = new ImageIcon("path/to/your/gif/file.gif");
+
+        // Set the ImageIcon as the icon for the JLabel
+        backgroundLabel.setIcon(gifIcon);
+
+        // Add the JLabel to the titlePanel
+        titlePanel.add(backgroundLabel);
 
         JLabel titleNameLabel = new JLabel("AIR-RAID");
         titleNameLabel.setForeground(Color.WHITE);
@@ -30,13 +42,10 @@ public class GameOpening {
         startButtonPanel.add(startButton);
         titlePanel.add(startButtonPanel);
         jFrame.add(startButtonPanel);
-//        jFrame.add(titlePanel);
     }
+
     public JPanel getTitlePanel() {
         return titlePanel;
-    }
-    public JPanel getTitleNameLabel(){
-        return startButtonPanel;
     }
 
     public JButton getStartButton() {

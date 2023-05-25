@@ -4,26 +4,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+
 
 public class Gameplay extends JPanel implements KeyListener
 {
     /*In this class we're going to combine the whole game*/
+    private static final int WIDTH = 800, HEIGHT = 800;
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 800;
-
-
-    //
     private final Target[][] targets;
     private final Player[] planes;
     private final Bomb[] bombs;
-    private final Heart[] blueHearts;
-    private final Heart[] orangeHearts;
-
 
     private final boolean[] pressedKeys;
     private static final int ENTER = 0;
@@ -31,17 +22,17 @@ public class Gameplay extends JPanel implements KeyListener
     private static final int ROWS = 8;
     private static final int COLUMN = 38;
     private static int blueChecker = 0;
-    private static int orangeChecker = 0;
+    private static int  orangeChecker = 0;
     private static int orangeScore = 0;
     private static int blueScore = 0;
-    private static boolean canFall = true;
     private final JLabel blueLabel;
     private final JLabel orangeLabel;
-    private final JLabel blueHeartLabel;
-    private final JLabel orangeHeartLabel;
-    private final JLabel winner;
-
+    private static final int GAME_DURATION_MS = 60000;  // 60 seconds
+    private Timer gameTimer;
+    private int timeLeft;
     private final Image background = new ImageIcon("Resource/General/Background.png").getImage();
+    private boolean running = true;
+
 
 
     public Gameplay(int START_X, int START_Y, int GAMEPLAY_WIDTH, int GAMEPLAY_HEIGHT)
@@ -49,74 +40,43 @@ public class Gameplay extends JPanel implements KeyListener
 
         this.setBounds(START_X, START_Y, GAMEPLAY_WIDTH, GAMEPLAY_HEIGHT);
         this.setBackground(Color.BLUE);
-
         this.pressedKeys = new boolean[2];
 
-        InputStream is = getClass().getResourceAsStream("Resource/Font/Pixel.ttf");
-        winner = new JLabel();
-
-        blueLabel = new JLabel("SCORE: 0");
-        orangeLabel = new JLabel("SCORE: 0");
-
-        blueHeartLabel = new JLabel();
-        blueHeartLabel.setIcon(new ImageIcon("Resource/HeartsLeft/BlueTeam.png"));
-
-        orangeHeartLabel = new JLabel();
-        orangeHeartLabel.setIcon(new ImageIcon("Resource/HeartsLeft/OrangeTeam.png"));
+        blueLabel = new JLabel("0");
+        orangeLabel = new JLabel("0");
 
         try
         {
-            Font customFontSized = Font.createFont(Font.TRUETYPE_FONT,new File("Resource/Font/Pixel.ttf")).deriveFont(12f);
-            orangeLabel.setFont(customFontSized);
+            Font customFontSized = Font.createFont(Font.TRUETYPE_FONT,new File("Resource/Font/Pixel.ttf")).deriveFont(30f);
             blueLabel.setFont(customFontSized);
+            orangeLabel.setFont(customFontSized);
         }
         catch (FontFormatException | IOException e)
         {
             e.printStackTrace();
         }
 
-        Dimension size1 = orangeLabel.getPreferredSize();
-        Dimension size2 = blueLabel.getPreferredSize();
-        Dimension size3 = winner.getPreferredSize();
+        timeLeft = GAME_DURATION_MS;
 
-        orangeLabel.setBounds(80,10,size1.width+50,size1.height);
-        blueLabel.setBounds(600,10,size2.width+50,size2.height);
-        winner.setBounds(WIDTH/2,HEIGHT/2,size3.width+30,size3.height);
-        orangeLabel.setForeground(new Color(104,4,4));
-        blueLabel.setForeground(new Color(0,0,104));
+        orangeLabel.setBounds(80, 10, 50, 50);
+        blueLabel.setBounds(700, 10, 50, 50);
 
-        Heart startingHeartBlue = new Heart(10);
-        blueHearts = new Heart[]{
-                startingHeartBlue,
-                new Heart(10 + startingHeartBlue.getWidth()),
-                new Heart(10 + (startingHeartBlue.getWidth() * 2))
-        };
-
-        Heart startingHeartOrange = new Heart(WIDTH - 10 - startingHeartBlue.getWidth());
-        orangeHearts = new Heart[]{
-                startingHeartOrange,
-                new Heart(WIDTH - 10 - (2 * startingHeartOrange.getWidth())),
-                new Heart(WIDTH - 10 - (3 * startingHeartOrange.getWidth()))
-        };
-
-
+        orangeLabel.setForeground(new Color(255, 165, 0));
+        blueLabel.setForeground(new Color(0, 0, 255));
 
         this.setLayout(null);
         this.add(orangeLabel);
         this.add(blueLabel);
-        this.add(blueHeartLabel);this.add(orangeHeartLabel);
-        this.add(winner);
 
         Image[] planeImages = {
-                new ImageIcon(styleOption("BLUE", new Random().nextInt(5))).getImage(),
-                new ImageIcon(styleOption("ORANGE", new Random().nextInt(5))).getImage()
+                new ImageIcon(styleOption("BLUE", new Random().nextInt(5) + 1)).getImage(),
+                new ImageIcon(styleOption("ORANGE", new Random().nextInt(5) + 1)).getImage()
         };
 
         Image[] bombImages = {
                 new ImageIcon("Resource/Bomb/Blue.png").getImage(),
                 new ImageIcon("Resource/Bomb/Orange.png").getImage()
         };
-        this.add(winner);
 
         planes = new Player[]{
                 new Player(
@@ -141,18 +101,18 @@ public class Gameplay extends JPanel implements KeyListener
 
         bombs = new Bomb[]{
                 new Bomb(
-                        planes[0].getX(),
-                        planes[0].getY(),
-                        planeImages[0].getWidth(null) / 30,
-                        planeImages[0].getWidth(null) / 30,
+                        planes[0].getX() + planes[0].getWIDTH(),
+                        planes[0].getY() + planes[0].getHEIGHT() / 2,
+                        planeImages[0].getWidth(null) / 40,
+                        planeImages[0].getWidth(null) / 40,
                         10,
                         bombImages[0]
                 ),
                 new Bomb(
                         planes[1].getX(),
-                        planes[1].getY(),
-                        planeImages[1].getWidth(null) / 30,
-                        planeImages[1].getWidth(null) / 30,
+                        planes[1].getY() + planes[1].getHEIGHT() / 2,
+                        planeImages[1].getWidth(null) / 40,
+                        planeImages[1].getWidth(null) / 40,
                         10,
                         bombImages[1]
                 )
@@ -165,25 +125,27 @@ public class Gameplay extends JPanel implements KeyListener
         int blue = 0;
         int orange = 1;
 
-
-
-
-
-
         this.targets = new Target[ROWS][COLUMN];
 
-
         initializeTargets();
-
 
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
 
-
+        gameTimer = new Timer(1000, e -> {
+            timeLeft -= 1000;
+            if (timeLeft <= 0) {
+                gameTimer.stop();
+                stopGame();
+                determineWinner();
+            }
+            repaint();
+        });
+        gameTimer.start();
         new Thread(() ->
         {
-            while (true)
+            while (running)
             {
                 repaint();
                 handlePlayerLoop(blue, -20);
@@ -195,21 +157,17 @@ public class Gameplay extends JPanel implements KeyListener
                 handleBombReturn(blue);
                 handleBombReturn(orange);
 
-
-
-                Rectangle bombRect = this.bombs[0].calculateRectangle();
-                Rectangle bomb2Rect = this.bombs[1].calculateRectangle();
-
                 checkCollisions();
-
 
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
             }
         }).start();
+
 
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -232,35 +190,22 @@ public class Gameplay extends JPanel implements KeyListener
                 this.targets[i][j].draw(graphics);
             }
         }
-    }
-    private void miniLoop(){
-    }
-
-    private void endGame(){
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLUMN; j++) {
-                if (this.targets[i][j]==new Target(0, 0, 0, 0, 0, new ImageIcon("Resource/Target/1.png").getImage())
-                        &&(760== orangeScore+blueScore)){
-                    if (orangeScore>blueScore){
-                        winner.setText("Orange win!!");
-                    } else if (orangeScore<blueScore) {
-                        winner.setText("Blue win!!");
-                    }else {
-                        winner.setText("Tie :(");
-                    }
-
-                }
-            }
+        try {
+            graphics.setFont(Font.createFont(Font.TRUETYPE_FONT,new File("Resource/Font/Pixel.ttf")).deriveFont(30f));
+        } catch (FontFormatException | IOException e) {
+            throw new RuntimeException(e);
         }
+        graphics.setColor(Color.WHITE);
+        graphics.drawString(Integer.toString(timeLeft / 1000), WIDTH / 2 - 10, WIDTH / 20);
     }
-
-
-
-
-
-
-    public Dimension getPreferredSize() {
-        return new Dimension(WIDTH, HEIGHT);
+    private void determineWinner() {
+        if (orangeScore > blueScore) {
+            JOptionPane.showMessageDialog(this, "Orange wins!");
+        } else if (blueScore > orangeScore) {
+            JOptionPane.showMessageDialog(this, "Blue wins!");
+        } else {
+            JOptionPane.showMessageDialog(this, "It's a tie!");
+        }
     }
     private void initializeTargets() {
         Target baseTarget = new Target(
@@ -295,16 +240,16 @@ public class Gameplay extends JPanel implements KeyListener
 
     private void handlePlayerLoop(int color, int startingPoint) {
         if (this.planes[0].getX() > getWidth() &&
-                (this.bombs[0].getX() >= getWidth() && this.bombs[0].getY() == this.planes[0].getY())) {
-            // Makes the player loop
+                (this.bombs[0].getX() > getWidth() && this.bombs[0].getY() == this.planes[0].getY())) {
             this.planes[0].setX(-20);
-            this.bombs[0].setX(-20);
+            this.bombs[0].setX(planes[0].getX() + planes[0].getWIDTH());
         } else if (this.planes[1].getX() < -20 &&
-                (this.bombs[1].getX() <= -20 && this.bombs[1].getY() == this.planes[1].getY())) {
-            this.planes[1].setX(800+20);
-            this.bombs[1].setX(800+20);
+                (this.bombs[1].getX() < -20 && this.bombs[1].getY() == this.planes[1].getY())) {
+            this.planes[1].setX(WIDTH + 20);
+            this.bombs[1].setX(planes[1].getX());
         }
     }
+
     private void dropBomb(int bombIndex) {
         if (this.pressedKeys[bombIndex]) {
             if (bombIndex == 0) {
@@ -312,55 +257,57 @@ public class Gameplay extends JPanel implements KeyListener
             } else if (bombIndex == 1) {
                 this.bombs[bombIndex].moveLeft();
             }
-            this.bombs[bombIndex].setSLEEP(40);
+            this.bombs[bombIndex].setSleep(40);
         }
     }
+
     private void handleBombReturn(int bombIndex) {
         if (this.bombs[bombIndex].getY() == getHeight()) {
             this.bombs[bombIndex].reload(planes[bombIndex].getX(), planes[bombIndex].getY());
-            this.bombs[bombIndex].setSLEEP(10);
+            this.bombs[bombIndex].setSleep(10);
             if (bombIndex == 0) {
                 this.pressedKeys[ENTER] = false;
                 if (this.bombs[bombIndex].getX() == getWidth()) {
-                    this.bombs[bombIndex].setX(this.planes[bombIndex].getX());
+                    this.bombs[bombIndex].setX(planes[bombIndex].getX() + planes[bombIndex].getWIDTH());
                 }
             } else if (bombIndex == 1) {
                 this.pressedKeys[SPACE] = false;
                 if (this.bombs[bombIndex].getX() == -10) {
-                    this.bombs[bombIndex].setX(this.bombs[bombIndex].getX());
+                    this.bombs[bombIndex].setX(planes[bombIndex].getX());
                 }
             }
         }
     }
-    private void checkCollisions() {
-        Rectangle bombRect = this.bombs[0].calculateRectangle();
-        Rectangle bomb2Rect = this.bombs[1].calculateRectangle();
 
+    private void checkCollisions() {
+        Rectangle blueBombRec = this.bombs[0].calculateRectangle();
+        Rectangle orangeBombRec = this.bombs[1].calculateRectangle();
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMN; j++) {
                 Rectangle targetRect = this.targets[i][j].calculateRectangle();
 
-                handleCollision(0, bombRect, targetRect, i, j);
-                handleCollision(1, bomb2Rect, targetRect, i, j);
-
-                if (orangeChecker == 1000) {
-                    orangeChecker = 0;
-                    this.bombs[1].reload(this.planes[1].getX(), this.planes[1].getY());
-                    this.bombs[1].setSLEEP(10);
-                    this.pressedKeys[SPACE] = false;
-                }
-                if (blueChecker == 700) {
-                    blueChecker = 0;
-                    this.bombs[0].reload(this.planes[0].getX(), this.planes[0].getY());
-                    this.bombs[0].setSLEEP(10);
-                    this.pressedKeys[ENTER] = false;
-                }
+                handleCollision(0, blueBombRec, targetRect, i, j);
+                handleCollision(1, orangeBombRec, targetRect, i, j);
+                checkReload(0, ENTER, this.bombs[0], this.planes[0]);
+                checkReload(1, SPACE, this.bombs[1], this.planes[1]);
 
             }
         }
     }
 
-
+    private void checkReload(int index, int key, Bomb bomb, Player plane) {
+        if (index == 0 && blueChecker == 8) {
+            blueChecker = 0;
+            bomb.reload(plane.getX(), plane.getY());
+            this.pressedKeys[key] = false;
+            bomb.setSleep(10);
+        } else if (index == 1 && orangeChecker == 8) {
+            orangeChecker = 0;
+            bomb.reload(plane.getX(), plane.getY());
+            this.pressedKeys[key] = false;
+            bomb.setSleep(10);
+        }
+    }
 
     private void handleCollision(int bombIndex, Rectangle bombRect, Rectangle targetRect, int i, int j) {
         if (Utils.checkCollision(bombRect, targetRect)) {
@@ -376,29 +323,28 @@ public class Gameplay extends JPanel implements KeyListener
             if (bombIndex == 0) {
                 blueChecker++;
                 blueScore += targetNumber; // Use the original targets number
-                blueLabel.setText("SCORE: " + blueScore);
+                blueLabel.setText(Integer.toString(blueScore));
             } else if (bombIndex == 1) {
                 orangeChecker++;
                 orangeScore += targetNumber; // Use the original targets number
-                orangeLabel.setText("SCORE: " + orangeScore);
+                orangeLabel.setText(Integer.toString(orangeScore));
             }
         }
     }
+    public void stopGame() {
+        running = false;
+    }
+
     private String styleOption(String color, int type){
         return "Resource/Player/"+ color +"_TEAM/option"+ type +".png";
     }
-
-
-
-
-
 
     @Override
     public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Integer toPress =null;
+        Integer toPress = null;
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             toPress = ENTER;
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {

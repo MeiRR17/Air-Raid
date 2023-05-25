@@ -10,7 +10,7 @@ public class RulesWindow extends JFrame {
         this.setTitle("Rules Before The Gaming / RBTG");
         JLabel rules = new JLabel("Game Objective:");
         JLabel rules1 = new JLabel("The game has 2 players who control planes that automatically fly.");
-        JLabel rules2= new JLabel("The player who destroys the most targets win.");
+        JLabel rules2= new JLabel("The player who gets the most points gathering from targets, wins.");
         JLabel rules3 = new JLabel("The players controls:");
         JLabel rules4 = new JLabel("The orange player shoots with space.");
         JLabel rules5 = new JLabel("The blue player shoots with enter");

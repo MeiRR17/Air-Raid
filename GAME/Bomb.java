@@ -1,31 +1,22 @@
 import java.awt.*;
 
 public class Bomb extends Thread{
-    private int START_X;
-    private final int moveX;
-    private final int moveY;
-    private int SLEEP;
-    private int START_Y;
+    private final int WIDTH, HEIGHT;
+    private int START_X, START_Y;
 
-    private final int WIDTH;
-    private final int HEIGHT;
-    private boolean canDrop;
+    private final int moveX;
+    private int sleep;
     private int points;
     private final Image image;
-
-
-
 
     public Bomb(int START_X, int START_Y, int width, int height, int sleep, Image image){
         this.START_X = START_X;
         this.moveX = START_X;
         this.START_Y = START_Y;
-        this.moveY= START_Y;
         this.WIDTH = width;
         this.HEIGHT = height;
-        this.SLEEP = sleep;
+        this.sleep = sleep;
         this.image = image;
-        this.canDrop = true;
     }
 
     public void moveRight(){
@@ -37,36 +28,11 @@ public class Bomb extends Thread{
         START_X --;
     }
 
-
-
-    public int getX(){
-        return START_X;
-    }
-    public void setX(int START_X){
-        this.START_X = START_X;
-    }
-    public int getY(){
-        return START_Y;
-    }
-
-    public boolean isCanDrop() {
-         return this.canDrop;
-    }
-    public void setCanDrop(boolean canDrop){
-        this.canDrop = canDrop;
-    }
-    public void setSLEEP(int sleep){
-        this.SLEEP = sleep;
-    }
-    public Rectangle calculateRectangle(){
+public Rectangle calculateRectangle(){
         return new Rectangle(this.START_X,this.START_Y,this.WIDTH,this.HEIGHT);
     }
 
-
-
-
-
-    public void reload(int playersX, int playersY){
+public void reload(int playersX, int playersY){
         this.START_X = playersX;
         this.START_Y = playersY;
     }
@@ -82,22 +48,23 @@ public class Bomb extends Thread{
                 this.START_X--;
             }
             try {
-                Thread.sleep(this.SLEEP);
+                Thread.sleep(this.sleep);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-
-    public int getWIDTH() {
-        return WIDTH;
+    public int getX(){
+        return START_X;
+    }
+    public void setX(int START_X){
+        this.START_X = START_X;
+    }
+    public int getY(){
+        return START_Y;
     }
 
-    public int getHEIGHT() {
-        return HEIGHT;
-    }
-
-    public Image getImage() {
-        return image;
+    public void setSleep(int sleep){
+        this.sleep = sleep;
     }
 }

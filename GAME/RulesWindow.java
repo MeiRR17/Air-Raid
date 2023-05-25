@@ -14,12 +14,14 @@ public class RulesWindow extends JFrame {
         JLabel rules3 = new JLabel("The players controls:");
         JLabel rules4 = new JLabel("The orange player shoots with space.");
         JLabel rules5 = new JLabel("The blue player shoots with enter");
+        JLabel rules6 = new JLabel("MAY THE BEST PLAYER WIN");
         rules.setBounds(0,0,200,800);
         rules1.setBounds(rules.getX(),rules.getY()+20,500,800);
         rules2.setBounds(0,rules1.getY()+20,rules1.getWidth(),rules1.getHeight());
         rules3.setBounds(rules.getX(),rules2.getY()+20,rules1.getWidth(),rules1.getHeight());
         rules4.setBounds(rules.getX(),rules3.getY()+20,rules1.getWidth(),rules1.getHeight());
         rules5.setBounds(0,rules4.getY()+20,rules1.getWidth(),rules1.getHeight());
+        rules6.setBounds(rules.getX(),rules5.getY()+20,rules1.getWidth(),rules1.getHeight());
         Dimension preferredSize = new Dimension(400, 200); // Adjust the size as needed
         rules.setPreferredSize(preferredSize);
         rules.setVerticalAlignment(SwingConstants.TOP);
@@ -33,6 +35,8 @@ public class RulesWindow extends JFrame {
         rules4.setVerticalAlignment(SwingConstants.TOP);
         rules5.setPreferredSize(preferredSize);
         rules5.setVerticalAlignment(SwingConstants.TOP);
+        rules6.setPreferredSize(preferredSize);
+        rules6.setVerticalAlignment(SwingConstants.TOP);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setLayout(null);
@@ -43,6 +47,7 @@ public class RulesWindow extends JFrame {
         this.add(rules3);
         this.add(rules4);
         this.add(rules5);
+        this.add(rules6);
     }
     public void showWindow(){//This method will make the JFrame visible
         this.setVisible(true);/*JFrame's build-in method to set it to be visible*/

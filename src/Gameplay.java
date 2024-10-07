@@ -175,6 +175,7 @@ public class Gameplay extends JPanel implements KeyListener
 
 
     }
+
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
@@ -198,6 +199,7 @@ public class Gameplay extends JPanel implements KeyListener
         graphics.setColor(Color.WHITE);
         graphics.drawString(Integer.toString(timeLeft / 1000), WIDTH / 2 - 10, WIDTH / 20);
     }
+
     private void determineWinner() {
         if (orangeScore > blueScore) {
             JOptionPane.showMessageDialog(this, "Orange wins!");
@@ -207,6 +209,7 @@ public class Gameplay extends JPanel implements KeyListener
             JOptionPane.showMessageDialog(this, "It's a tie!");
         }
     }
+
     private void initializeTargets() {
         Target baseTarget = new Target(
                 2,
@@ -331,6 +334,7 @@ public class Gameplay extends JPanel implements KeyListener
             }
         }
     }
+
     public void stopGame() {
         running = false;
     }
